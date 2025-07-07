@@ -64,7 +64,7 @@
 
       toast.success("Te has registrado exitosamente.");
 
-      goto("/sign-in");
+      goto("?action=sign-in");
     }
   }
 </script>
@@ -147,7 +147,7 @@
   </form>
   <p style="margin-top: 2rem; text-align: center;">
     ¿Ya tienes una cuenta?
-    <a href="/sign-in">Inicia sesión</a>
+    <a href="?action=sign-in">Inicia sesión</a>
   </p>
 </div>
 

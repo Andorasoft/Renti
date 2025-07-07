@@ -2,26 +2,13 @@ export const router = [
   {
     name: "home",
     path: "/",
-    protected: true
+    protected: true,
+    params: []
   },
   {
     name: "auth",
     path: "/auth",
-    protected: false
-  },
-  {
-    name: "signIn",
-    path: "/sign-in",
-    protected: false
-  },
-  {
-    name: "signUp",
-    path: "/sign-up",
-    protected: false
-  },
-  {
-    name: "passwordReset",
-    path: "/password-reset",
-    protected: false
+    protected: false,
+    params: ["sign-in", "sign-up", "password-reset"]
   }
 ];

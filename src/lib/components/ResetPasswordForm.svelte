@@ -12,7 +12,7 @@
 
     toast.success("Enlace de recuperación enviado.");
 
-    goto("/sign-in");
+    goto("?action=sign-in");
   }
 </script>
 
@@ -30,7 +30,7 @@
     />
     <button class="accent" type="submit">Enviar enlace</button>
   </form>
-  <a href="/sign-in">
+  <a href="?action=sign-in">
     <ArrowLeft color="currentColor" />
     Volver al inicio
   </a>

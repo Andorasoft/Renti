@@ -9,7 +9,7 @@
   let password: string = "";
 
   async function onSubmit(_: Event) {
-    const { success } = await repository.auth.signIn(email, password);
+    const { error: success } = await repository.auth.signIn(email, password);
 
     if (!success) {
       toast.error("Credenciales incorrectas.");
@@ -44,7 +44,7 @@
       placeholder="Contraseña"
       required
     />
-    <a href="/password-reset">¿Olvidaste tu contraseña?</a>
+    <a href="?action=password-reset">¿Olvidaste tu contraseña?</a>
     <button class="accent" type="submit">Iniciar sesión</button>
   </form>
   <div class="separator">o</div>
@@ -58,7 +58,7 @@
   </button>
   <p style="margin-top: 2rem;">
     ¿No tienes una cuenta?
-    <a href="/sign-up">Regístrate</a>
+    <a href="?action=sign-up">Regístrate</a>
   </p>
 </div>
 

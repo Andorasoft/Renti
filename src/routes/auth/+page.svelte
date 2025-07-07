@@ -1,14 +1,20 @@
 <script lang="ts">
-  import { page } from '$app/state';
-  import { setContext } from 'svelte';
+  import { ResetPasswordForm, SignInForm, SignUpForm } from "$lib";
 
-  let action = $state(page.url.searchParams.get("action"));
-  console.log(setContext('action', () => action));
+  export let data: { action: string, actions: string[] };
 </script>
 
 <div class="wrapper">
   <div class="none"></div>
-  <div class="forms"></div>
+  <div class="forms">
+    {#if data.action === data.actions[2]}
+      <ResetPasswordForm />
+    {:else if data.action === data.actions[1]}
+      <SignUpForm />
+    {:else if data.action === data.actions[0]}
+      <SignInForm />
+    {/if}
+  </div>
 </div>
 
 <style lang="scss">
@@ -18,6 +24,10 @@
     place-items: center;
 
     padding: 2rem;
+  }
+
+  .none {
+    display: none;
   }
 
   .forms {

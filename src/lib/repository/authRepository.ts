@@ -36,7 +36,13 @@ const authRepository = {
    * @param password - The user's password.
    * @returns An object with `success` and the corresponding `user` if found.
    */
-  async signIn(email: string, password: string): Promise<{ success: boolean, user: User | null }> {
+  async signIn(email: string, password: string): Promise<{
+    data: User | null,
+    error: {
+      code: string | undefined,
+      message: string | undefined
+    } | undefined
+  }> {
     const { data: authData, error: authError } = await supabase
       .auth.signInWithPassword({
         email,
@@ -44,7 +50,13 @@ const authRepository = {
       });
 
     if (authError || !authData.user) {
-      return { success: false, user: null };
+      return {
+        data: null,
+        error: {
+          code: authError?.code,
+          message: authError?.message
+        }
+      };
     }
 
     const { data: userData, error: userError } = await supabase
@@ -53,7 +65,13 @@ const authRepository = {
       .eq("email", authData.user.email)
       .single();
 
-    return { success: !userError, user: userData ?? null };
+    return {
+      data: userData ?? null,
+      error: userError ? {
+        code: userError?.code,
+        message: userError?.message
+      } : undefined
+    };
   },
 
   /**
@@ -79,14 +97,26 @@ const authRepository = {
     role: UserRole,
     country: Country
   },
-  ): Promise<boolean> {
+  ): Promise<{
+    error: {
+      code: string | undefined,
+      message: string | undefined
+    }
+  } | undefined> {
     const { data: authData, error: authError } = await supabase
       .auth.signUp({
         email: payload.email,
         password: payload.password
       });
 
-    if (authError || !authData.user) return false;
+    if (authError || !authData.user) {
+      return {
+        error: {
+          code: authError?.code,
+          message: authError?.message
+        }
+      }
+    }
 
     const uuid = UUID();
     const { data: userData, error: userError } = await supabase
@@ -100,7 +130,14 @@ const authRepository = {
       .select("*")
       .single();
 
-    if (userError || !userData) return false;
+    if (userError || !userData) {
+      return {
+        error: {
+          code: userError?.code,
+          message: userError?.message
+        }
+      }
+    };
 
     const { error: profileError } = await supabase
       .from("user_profile")
@@ -112,7 +149,14 @@ const authRepository = {
         user_id: userData.id
       });
 
-    return !profileError;
+    return profileError
+      ? {
+        error: {
+          code: profileError?.code,
+          message: profileError?.message
+        }
+      }
+      : undefined;
   },
 
   /**
@@ -120,11 +164,23 @@ const authRepository = {
    *
    * @returns True if successful; false if an error occurs.
    */
-  async signOut(): Promise<boolean> {
-    const { error } = await supabase
+  async signOut(): Promise<{
+    error: {
+      code: string | undefined,
+      message: string | undefined
+    }
+  } | undefined> {
+    const { error: authError } = await supabase
       .auth.signOut();
 
-    return !error;
+    return authError
+      ? {
+        error: {
+          code: authError?.code,
+          message: authError?.message
+        }
+      }
+      : undefined;
   },
 
   /**
