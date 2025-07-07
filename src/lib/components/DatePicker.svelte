@@ -4,7 +4,6 @@
 
   export let date: any = "";
   let dateInput: HTMLInputElement;
-  const icon = CalendarDays;
 
   /**
    * Dispatches custom component events.

@@ -1,5 +1,5 @@
-import { UserRole } from "$lib/models";
-import { supabase } from "$lib";
+import { supabase } from '$lib/supabase';
+import { UserRole } from "$lib";
 
 /**
  * UserRole Repository

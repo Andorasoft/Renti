@@ -1,13 +1,12 @@
 <script lang="ts">
   import { Mail, LockKeyhole, UserRoundPen } from "@lucide/svelte";
-  import { goto } from '$app/navigation';
+  import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import { toast } from "svoast";
 
-  import { TextBox, DatePicker, PhoneBox } from "$lib/components";
+  import { TextBox, DatePicker, PhoneBox } from "$lib";
+  import { UserRole, repository } from "$lib";
   import { capitalize } from "$lib/utils";
-  import { UserRole } from "$lib/models";
-  import { repository } from "$lib";
 
   let nombre = "";
   let apellido = "";
@@ -65,7 +64,7 @@
 
       toast.success("Te has registrado exitosamente.");
 
-      goto("/sign-in");
+      goto("?action=sign-in");
     }
   }
 </script>
@@ -148,7 +147,7 @@
   </form>
   <p style="margin-top: 2rem; text-align: center;">
     ¿Ya tienes una cuenta?
-    <a href="/sign-in">Inicia sesión</a>
+    <a href="?action=sign-in">Inicia sesión</a>
   </p>
 </div>
 

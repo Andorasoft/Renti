@@ -1,5 +1,5 @@
-import { Country } from "$lib/models";
-import { supabase } from "$lib";
+import { supabase } from '$lib/supabase';
+import { Country } from "$lib";
 
 /**
  * Country Repository
@@ -19,7 +19,7 @@ const countryRepository = {
       .select(`
         *,
         currency(*)
-      `);
+        `);
 
     return error ? [] : data.map(Country.fromJSON);
   },
@@ -36,7 +36,7 @@ const countryRepository = {
       .select(`
         *,
         currency(*)
-      `)
+        `)
       .eq("id", id);
 
     return error || !data || data.length === 0 ? null : Country.fromJSON(data[0]);
@@ -54,7 +54,7 @@ const countryRepository = {
       .select(`
         *,
         currency(*)
-      `)
+        `)
       .eq("name", name);
 
     return error || !data || data.length === 0 ? null : Country.fromJSON(data[0]);

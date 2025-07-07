@@ -1,4 +1,4 @@
-import { Currency } from '$lib/models';
+import { Currency } from '$lib';
 
 /**
  * Represents a country where users reside and properties exist.

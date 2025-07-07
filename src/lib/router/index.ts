@@ -1,16 +1,14 @@
-const router = [
+export const router = [
   {
+    name: "home",
     path: "/",
-    protected: true
+    protected: true,
+    params: []
   },
   {
-    path: "/login",
-    protected: false
-  },
-  {
-    paht: "/password-reset",
-    protected: false
+    name: "auth",
+    path: "/auth",
+    protected: false,
+    params: ["sign-in", "sign-up", "password-reset"]
   }
 ];
-
-export default router;

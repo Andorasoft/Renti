@@ -1,4 +1,4 @@
-import { UserRole, Country } from '$lib/models';
+import { UserRole, Country } from '$lib';
 
 /**
  * Represents an authenticated system user.

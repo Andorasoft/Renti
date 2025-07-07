@@ -3,8 +3,7 @@
   import { goto } from "$app/navigation";
   import { toast } from "svoast";
 
-  import { TextBox } from "$lib/components";
-  import { repository } from "$lib";
+  import { TextBox, repository } from "$lib";
 
   let email: string = "";
 
@@ -13,7 +12,7 @@
 
     toast.success("Enlace de recuperación enviado.");
 
-    goto("/sign-in");
+    goto("?action=sign-in");
   }
 </script>
 
@@ -31,7 +30,7 @@
     />
     <button class="accent" type="submit">Enviar enlace</button>
   </form>
-  <a href="/sign-in">
+  <a href="?action=sign-in">
     <ArrowLeft color="currentColor" />
     Volver al inicio
   </a>
