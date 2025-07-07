@@ -1,6 +1,7 @@
-import type { UserProfile, UserRole, User, Country } from "$lib/models";
+import { supabase } from '$lib/supabase';
+import type { UserRole, User, Country } from "$lib";
+
 import { customAlphabet } from 'nanoid';
-import { supabase } from "$lib";
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 

@@ -1,4 +1,4 @@
-import { User } from '$lib/models';
+import { User } from '$lib';
 
 /**
  * Represents a building owned by a user.

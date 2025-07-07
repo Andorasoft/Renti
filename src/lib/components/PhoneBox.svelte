@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
-  import type { Country } from "$lib/models";
+  import type { Country } from "$lib";
   import { isoToEmoji } from "$lib/utils";
   import { repository } from "$lib";
 

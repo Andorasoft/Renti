@@ -1,5 +1,5 @@
-import { UserProfile, type User } from "$lib/models";
-import { supabase } from "$lib";
+import { supabase } from '$lib/supabase';
+import { UserProfile, type User } from "$lib";
 
 /**
  * UserProfile Repository
