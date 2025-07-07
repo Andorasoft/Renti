@@ -1,7 +1,11 @@
 import { type Handle, redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
+import { dev } from '$app/environment';
+
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
+
+import { normalize } from '$lib/utils';
 import { router } from '$lib/router';
 
 /**
@@ -29,7 +33,7 @@ const supabase: Handle = async ({ event, resolve }) => {
          */
         setAll: (cookiesToSet: { name: string; value: string; options: CookieOptions }[]) => {
           cookiesToSet.forEach(({ name, value, options }) => {
-            event.cookies.set(name, value, { ...options, path: '/' });
+            event.cookies.set(name, value, { ...options, path: '/', secure: !dev });
           });
         }
       }
@@ -42,24 +46,24 @@ const supabase: Handle = async ({ event, resolve }) => {
    */
   event.locals.getSession = async () => {
     const {
-      data: { session }
+      data: { session },
     } = await event.locals.supabase.auth.getSession();
 
     if (!session) {
-      return { session: null, user: null };
+      return { session: null, user: null }
     }
 
     const {
-      error
+      data: { user },
+      error,
     } = await event.locals.supabase.auth.getUser();
 
     if (error) {
-      // Invalid token or failed validation
-      return { session: null, user: null };
+      // JWT validation has failed
+      return { session: null, user: null }
     }
-
-    return { session };
-  };
+    return { session, user }
+  }
 
   /**
    * Resolves the request, while allowing Supabase-specific response headers to pass through.
@@ -76,8 +80,7 @@ const supabase: Handle = async ({ event, resolve }) => {
  */
 const authGuard: Handle = async ({ event, resolve }) => {
   const { session } = await event.locals.getSession();
-
-  const pathname = event.url.pathname;
+  const pathname = normalize(event.url.pathname);
   const current = router.find(
     (r) => r.path === pathname
   );

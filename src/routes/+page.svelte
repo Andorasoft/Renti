@@ -1,6 +1,6 @@
 <script lang="ts">
   import { MapPin, Menu, X } from "@lucide/svelte";
-  import { SearchBox } from "$lib";
+  import { repository, SearchBox } from "$lib";
 
   const name = "Ricardo";
   const location = "Riobamba, Ecuador";
@@ -13,6 +13,10 @@
 
   function closeMenu() {
     isMenuOpen = false;
+  }
+
+  async function onSignOutClick(_: Event) {
+    await repository.auth.signOut();
   }
 
   function handleSearch(event: CustomEvent<{ query: string }>): void {
@@ -51,9 +55,20 @@
 </header>
 <main>
   <SearchBox placeholder="Buscar..." on:search={handleSearch} />
+  <button style="padding: 0 1rem;" on:click={onSignOutClick}>
+    Cerrar sesión
+  </button>
 </main>
 
 <style lang="scss">
+  main {
+    margin: 0 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
   header {
     padding: 0 1rem;
     height: 6rem;
@@ -64,22 +79,8 @@
   }
 
   button {
-    background-color: #dfe5ec;
-    border-radius: 100%;
-    border: none;
-    outline: none;
-
-    display: grid;
-    place-items: center;
-
-    width: 3.25rem;
-    height: 3.25rem;
-
-    transition: background-color 0.2s ease-in-out;
-
-    &:hover {
-      background-color: #ced3d9;
-    }
+    min-width: 3rem;
+    width: auto;
   }
 
   .card-user {

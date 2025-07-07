@@ -1,15 +1,13 @@
 <script lang="ts">
-  import { ResetPasswordForm, SignInForm, SignUpForm } from "$lib";
+  import { SignInForm, SignUpForm } from "$lib";
 
-  export let data: { action: string, actions: string[] };
+  export let data: { action: string; actions: string[] };
 </script>
 
 <div class="wrapper">
   <div class="none"></div>
   <div class="forms">
-    {#if data.action === data.actions[2]}
-      <ResetPasswordForm />
-    {:else if data.action === data.actions[1]}
+    {#if data.action === data.actions[1]}
       <SignUpForm />
     {:else if data.action === data.actions[0]}
       <SignInForm />
