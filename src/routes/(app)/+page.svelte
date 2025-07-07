@@ -1,6 +1,6 @@
 <script lang="ts">
   import { MapPin, Menu, X } from "@lucide/svelte";
-  import { SearchBox } from "$lib/components";
+  import { SearchBox } from "$lib";
 
   const name = "Ricardo";
   const location = "Riobamba, Ecuador";
