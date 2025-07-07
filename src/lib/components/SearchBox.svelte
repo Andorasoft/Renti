@@ -64,7 +64,7 @@
     bind:value
     on:keydown={onKeydown}
   />
-  <button aria-label="Buscar" on:click={onClick}>
+  <button class="accent" aria-label="Buscar" on:click={onClick}>
     <CornerDownLeft color="#ffffff" />
   </button>
 </label>
@@ -82,7 +82,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-self: center;
     gap: 0.5rem;
 
     transition: $transition;
@@ -96,25 +95,13 @@
     }
 
     & button {
-      background-color: var(--accent-color);
-      border-radius: 100%;
-      border: none;
-
       width: 2.5rem;
       height: 2.5rem;
-
-      display: grid;
-      place-items: center;
-
-      transition: $transition;
-
-      &:hover {
-        background-color: var(--accent-color-dark1);
-      }
+      min-height: 0;
     }
 
     &:hover {
-      background-color: #ced3d9;
+      background-color: var(--color-input-hover);
     }
   }
 </style>

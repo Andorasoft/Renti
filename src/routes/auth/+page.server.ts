@@ -14,10 +14,10 @@ export const load: PageServerLoad = ({ url }) => {
   const route = router.find(r => r.name === 'auth');
 
   if (!route) {
-    throw new Error('Route /auth not defined in the router configuration.');
+    throw new Error('Route "auth" not defined in the router configuration.');
   }
 
-  const actions = route.params; // List of valid actions (e.g., ['sign-in', 'sign-up', ...])
+  const actions = route.queryParams?.action ?? []; // Access valid actions
   const action = url.searchParams.get('action') ?? '';
 
   // Redirect to default action if the current one is not valid

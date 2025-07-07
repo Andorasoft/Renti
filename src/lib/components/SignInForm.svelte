@@ -9,9 +9,9 @@
   let password: string = "";
 
   async function onSubmit(_: Event) {
-    const { error: success } = await repository.auth.signIn(email, password);
+    const { error } = await repository.auth.signIn(email, password);
 
-    if (!success) {
+    if (error) {
       toast.error("Credenciales incorrectas.");
     } else {
       goto("/");
@@ -35,16 +35,18 @@
     <TextBox
       icon={Mail}
       type="email"
+      bind:value={email}
       placeholder="Correo electrónico"
       required
     />
     <TextBox
       icon={LockKeyhole}
       type="password"
+      bind:value={password}
       placeholder="Contraseña"
       required
     />
-    <a href="?action=password-reset">¿Olvidaste tu contraseña?</a>
+    <a href="/auth/password_reset">¿Olvidaste tu contraseña?</a>
     <button class="accent" type="submit">Iniciar sesión</button>
   </form>
   <div class="separator">o</div>

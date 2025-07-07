@@ -9,6 +9,16 @@ export const router = [
     name: "auth",
     path: "/auth",
     protected: false,
-    params: ["sign-in", "sign-up", "password-reset"]
+    queryParams: {
+      action: ["sign-in", "sign-up"]
+    }
+  },
+  {
+    name: "password-reset",
+    path: "/auth/password_reset",
+    protected: false,
+    queryParams: {
+      type: ["recovery", ""] // expected from Supabase magic link
+    }
   }
 ];
