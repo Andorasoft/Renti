@@ -14,8 +14,13 @@ export { default as SignInForm } from "./components/SignInForm.svelte";
 export { default as SignUpForm } from "./components/SignUpForm.svelte";
 export { default as TextBox } from "./components/TextBox.svelte";
 
+export type { AppMetadata } from "./types/AppMetadata";
+export type { AuthSession } from "./types/AuthSession";
+export type { AuthUser } from "./types/AuthUser";
 export type { CircleSpinner } from "./types/CircleSpinner";
+export type { QueryError } from "./types/QueryError";
 export type { Spinner } from "./types/Spinner";
+export type { UserMetadata } from "./types/UserMetadata";
 
 export { default as Building } from "./models/Building";
 export { default as Country } from "./models/Country";

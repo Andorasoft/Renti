@@ -1,268 +1,159 @@
+import type { AuthError, AuthUser } from '@supabase/supabase-js';
 import { supabase } from '$lib/supabase';
-import type { UserRole, User, Country } from "$lib";
-
-import { customAlphabet } from 'nanoid';
-
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-/**
- * Generate a short pseudo-unique identifier.
- *
- * Format: XXXX-XXXX using uppercase letters and digits.
- * Used for identifying user records in the `user` table.
- *
- * @returns A custom UUID string.
- */
-function UUID(): string {
-  const nano = customAlphabet(alphabet, 8);
-  const raw = nano();
-  return `${raw.slice(0, 4)}-${raw.slice(4)}`;
-}
 
 /**
  * Authentication Repository
  *
- * Centralized module for handling authentication and user management
- * using Supabase Auth and custom database tables.
- *
- * This repository abstracts:
- * - Email/password sign-in and sign-up
- * - User registration across `user` and `user_profile` tables
- * - Session management (sign out)
- * - Password reset requests and password updates
- * - User metadata updates (email/password)
+ * Centralized abstraction layer for authentication using Supabase Auth.
+ * Encapsulates user sign-in, sign-up, session management, recovery,
+ * and metadata updates. Also designed to be extendable for integration
+ * with custom database tables like `user` or `user_profile`.
  */
 const authRepository = {
   /**
-   * Sign in using email and password.
+   * Retrieves the current authenticated user from Supabase.
    *
-   * Authenticates the user through Supabase Auth, then retrieves
-   * the associated record from the custom `user` table.
-   *
-   * @param email - The user's email address.
-   * @param password - The user's password.
-   * @returns A result object containing the matched `User` or an error.
+   * @returns An object containing the current `AuthUser` or an `AuthError`.
    */
-  async signIn(email: string, password: string): Promise<{
-    data?: User,
-    error?: {
-      code?: string,
-      message?: string
-    }
+  async getUser(): Promise<{
+    data: AuthUser | null;
+    error: AuthError | null;
   }> {
-    const { data: authData, error: authError } = await supabase
-      .auth.signInWithPassword({
-        email,
-        password
-      });
-
-    if (authError || !authData.user) {
-      return {
-        error: {
-          code: authError?.code,
-          message: authError?.message
-        }
-      };
-    }
-
-    const { data: userData, error: userError } = await supabase
-      .from("user")
-      .select("*")
-      .eq("email", authData.user.email)
-      .single();
+    const { data: authData, error: authError } = await supabase.auth.getUser();
 
     return {
-      data: userData ?? null,
-      error: userError ? {
-        code: userError?.code,
-        message: userError?.message
-      } : undefined
+      data: authData?.user ?? null,
+      error: authError,
     };
   },
 
-  async signInWithGoogle() {
+  /**
+   * Authenticates a user via email and password.
+   *
+   * @param email - The user's email address.
+   * @param password - The user's password.
+   * @returns An object containing the authenticated `AuthUser` or an `AuthError`.
+   */
+  async signIn(email: string, password: string): Promise<{
+    data: AuthUser | null;
+    error: AuthError | null;
+  }> {
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    return {
+      data: authData?.user ?? null,
+      error: authError,
+    };
+  },
+
+  /**
+   * Initiates OAuth login with Google provider.
+   *
+   * @returns An object containing an optional `AuthError`.
+   */
+  async signInWithGoogle(): Promise<{
+    error: AuthError | null;
+  }> {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${origin}/auth/callback`,
         queryParams: {
-          prompt: 'select_account'
-        }
+          prompt: 'select_account', // always show Google account selector
+        },
       },
     });
 
-    return { error }
+    return { error };
   },
 
   /**
-   * Register a new user.
+   * Registers a new user using email and password.
    *
-   * 1. Creates a new Supabase Auth user (email + password).
-   * 2. Inserts a corresponding record into the `user` table with role and country.
-   * 3. Inserts additional personal data into the `user_profile` table.
+   * If phone is provided, it is stored but not verified (unless SMS auth is enabled).
+   * The email verification link will redirect to the provided `emailRedirectTo` URL.
    *
-   * @param payload - Object containing email, password, personal info, role and country.
-   * @returns An object indicating success or a detailed error.
+   * @param attributes - User registration payload.
+   * @param attributes.email - The user's email address.
+   * @param attributes.password - The user's password.
+   * @param attributes.phone - (Optional) Phone number in E.164 format.
+   * @returns An object containing an optional `AuthError`.
    */
-  async signUp(payload: {
-    email: string,
-    password: string,
-    first_name: string,
-    last_name: string,
-    identify_card?: string,
-    phone?: string,
-    role: UserRole,
-    country: Country
-  },
-  ): Promise<{
-    error?: {
-      code: string | undefined,
-      message: string | undefined
-    }
+  async signUp(attributes: {
+    email: string;
+    password: string;
+    phone?: string;
+  }): Promise<{
+    error: AuthError | null;
   }> {
-    const { data: authData, error: authError } = await supabase
-      .auth.signUp({
-        email: payload.email,
-        password: payload.password,
-        options: {
-          emailRedirectTo: `${origin}/auth?action=sign-in`
-        }
-      });
+    const { error: authError } = await supabase.auth.signUp({
+      email: attributes.email,
+      password: attributes.password,
+      phone: attributes.phone ?? '',
+      options: {
+        emailRedirectTo: `${origin}/auth?action=sign-in`,
+      },
+    });
 
-    if (authError || !authData.user) {
-      return {
-        error: {
-          code: authError?.code,
-          message: authError?.message
-        }
-      };
-    }
-
-    const uuid = UUID();
-    const { data: userData, error: userError } = await supabase
-      .from("user")
-      .insert({
-        uuid,
-        email: payload.email,
-        user_role_id: payload.role.id,
-        country_id: payload.country.id
-      })
-      .select("*")
-      .single();
-
-    if (userError || !userData) {
-      return {
-        error: {
-          code: userError?.code,
-          message: userError?.message
-        }
-      };
-    }
-
-    const { error: profileError } = await supabase
-      .from("user_profile")
-      .insert({
-        first_name: payload.first_name,
-        last_name: payload.last_name,
-        identity_card: payload.identify_card,
-        phone: payload.phone,
-        user_id: userData.id
-      });
-
-    return {
-      error: profileError ? {
-        code: profileError?.code,
-        message: profileError?.message
-      } : undefined
-    };
+    return { error: authError };
   },
 
   /**
-   * Sign out the currently authenticated user.
+   * Signs out the currently authenticated user.
    *
-   * @returns An object indicating whether sign-out was successful or failed.
+   * @returns An object indicating if sign-out was successful or failed.
    */
   async signOut(): Promise<{
-    error?: {
-      code?: string,
-      message?: string
-    }
+    error: AuthError | null;
   }> {
-    const { error: authError } = await supabase
-      .auth.signOut();
+    const { error: authError } = await supabase.auth.signOut();
 
-    return {
-      error: authError
-        ? {
-          code: authError?.code,
-          message: authError?.message
-        }
-        : undefined
-    };
+    return { error: authError };
   },
 
   /**
-   * Request a password reset email.
+   * Sends a password recovery email to the given address.
    *
-   * Sends a magic link to the user's email that redirects to the
-   * configured `password-reset` page with a `type=recovery` query param.
+   * The recovery email will redirect to the configured reset URL
+   * with `?type=recovery` appended to the query string.
    *
    * @param email - The email address to send the recovery link to.
-   * @returns An object with an optional error.
+   * @returns An object containing an optional `AuthError`.
    */
   async resetPassword(email: string): Promise<{
-    error?: {
-      code?: string,
-      message?: string
-    }
+    error: AuthError | null;
   }> {
-    const { error: authError } = await supabase
-      .auth.resetPasswordForEmail(email, {
-        redirectTo: `${origin}/auth/password_reset?type=recovery`
-      });
+    const { error: authError } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${origin}/auth/password_reset?type=recovery`,
+    });
 
-    return {
-      error: authError
-        ? {
-          code: authError?.code,
-          message: authError?.message
-        }
-        : undefined
-    };
+    return { error: authError };
   },
 
   /**
-   * Update the authenticated user's email and/or password.
+   * Updates the current authenticated user's email and/or password.
    *
-   * @param attributes - Object containing the new email and/or password.
-   * @returns An object with an optional error.
+   * @param attributes - Fields to update.
+   * @param attributes.email - (Optional) New email address.
+   * @param attributes.password - (Optional) New password.
+   * @returns An object containing an optional `AuthError`.
    */
-  async updateUser(
-    attributes: {
-      email?: string,
-      password?: string
-    }
-  ): Promise<{
-    error?: {
-      code?: string,
-      message?: string
-    }
+  async updateUser(attributes: {
+    email?: string;
+    password?: string;
+  }): Promise<{
+    error: AuthError | null;
   }> {
-    const { error: authError } = await supabase
-      .auth.updateUser({
-        email: attributes?.email,
-        password: attributes.password
-      });
+    const { error: authError } = await supabase.auth.updateUser({
+      email: attributes.email,
+      password: attributes.password,
+    });
 
-    return {
-      error: authError
-        ? {
-          code: authError?.code,
-          message: authError?.message
-        }
-        : undefined
-    };
-  }
+    return { error: authError };
+  },
 };
 
 export default authRepository;
