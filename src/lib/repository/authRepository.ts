@@ -80,6 +80,20 @@ const authRepository = {
     };
   },
 
+  async signInWithGoogle() {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${origin}/auth/callback`,
+        queryParams: {
+          prompt: 'select_account'
+        }
+      },
+    });
+
+    return { error }
+  },
+
   /**
    * Register a new user.
    *
@@ -109,7 +123,10 @@ const authRepository = {
     const { data: authData, error: authError } = await supabase
       .auth.signUp({
         email: payload.email,
-        password: payload.password
+        password: payload.password,
+        options: {
+          emailRedirectTo: `${origin}/auth?action=sign-in`
+        }
       });
 
     if (authError || !authData.user) {

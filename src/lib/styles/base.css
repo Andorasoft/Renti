@@ -17,7 +17,8 @@ body {
   flex-direction: column;
 }
 
-html, body {
+html,
+body {
   min-height: 100vh;
 }
 
@@ -56,6 +57,11 @@ button {
 
 button:hover {
   background-color: var(--color-button-hover);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 button.accent {

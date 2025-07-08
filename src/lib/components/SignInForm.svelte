@@ -1,28 +1,34 @@
 <script lang="ts">
   import { Mail, LockKeyhole } from "@lucide/svelte";
-  import { goto } from "$app/navigation";
   import { toast } from "svoast";
 
   import { TextBox, repository } from "$lib";
+  import { setSpinner } from "$lib/stores";
 
   let email: string = "";
   let password: string = "";
 
-  async function onSubmit(_: Event) {
+  async function onSubmit(event: Event): Promise<void> {
+    setSpinner({ active: true });
+
     const { error } = await repository.auth.signIn(email, password);
+
+    setSpinner({ active: false });
 
     if (error) {
       toast.error("Credenciales incorrectas.");
-    } else {
-      goto("/");
     }
   }
 
-  function onGoogleClick(_: Event): void {
-    alert("Iniciar sesión con Google...");
+  async function onGoogleClick(event: Event): Promise<void> {
+    const { error } = await repository.auth.signInWithGoogle();
+
+    if (error) {
+      toast.error("Se produjo un error al acceder.");
+    }
   }
 
-  function onAppleClick(_: Event): void {
+  function onAppleClick(event: Event): void {
     alert("Iniciar sesión con Apple...");
   }
 </script>
@@ -52,11 +58,11 @@
   <div class="separator">o</div>
   <button on:click={onGoogleClick}>
     <img class="icon" src="/icons/Google.svg" alt="" />
-    Inicia sesión con Google
+    Acceder con Google
   </button>
-  <button on:click={onAppleClick}>
+  <button on:click={onAppleClick} disabled>
     <img class="icon" src="/icons/Apple.svg" alt="" />
-    Inicia sesión con Apple
+    Acceder con Apple
   </button>
   <p style="margin-top: 2rem;">
     ¿No tienes una cuenta?

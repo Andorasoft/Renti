@@ -5,6 +5,7 @@ import userProfileRepository from "./repository/userProfileRepository";
 import userRoleRepository from "./repository/userRoleRepository";
 
 export { default as DatePicker } from "./components/DatePicker.svelte";
+export { default as Loader } from "./components/Loader.svelte";
 export { default as PhoneBox } from "./components/PhoneBox.svelte";
 export { default as PasswordResetForm } from "./components/PasswordResetForm.svelte";
 export { default as PasswordChangeForm } from "./components/PasswordChangeForm.svelte";
@@ -12,6 +13,9 @@ export { default as SearchBox } from "./components/SearchBox.svelte";
 export { default as SignInForm } from "./components/SignInForm.svelte";
 export { default as SignUpForm } from "./components/SignUpForm.svelte";
 export { default as TextBox } from "./components/TextBox.svelte";
+
+export type { CircleSpinner } from "./types/CircleSpinner";
+export type { Spinner } from "./types/Spinner";
 
 export { default as Building } from "./models/Building";
 export { default as Country } from "./models/Country";

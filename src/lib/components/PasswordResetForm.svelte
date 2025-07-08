@@ -4,15 +4,20 @@
   import { toast } from "svoast";
 
   import { TextBox, repository } from "$lib";
+  import { setSpinner } from "$lib/stores";
 
   let email: string = "";
 
   async function onSubmit(_: Event) {
+    setSpinner({ active: true });
+
     await repository.auth.resetPassword(email);
+
+    setSpinner({ active: false });
 
     toast.success("Enlace de recuperación enviado.");
 
-    goto("/auth?action=sign-in");
+    goto("/auth?action=sign-in", { replaceState: true } );
   }
 </script>
 

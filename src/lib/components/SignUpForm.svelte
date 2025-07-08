@@ -1,12 +1,13 @@
 <script lang="ts">
   import { Mail, LockKeyhole, UserRoundPen } from "@lucide/svelte";
   import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import { toast } from "svoast";
 
   import { TextBox, DatePicker, PhoneBox } from "$lib";
   import { UserRole, repository } from "$lib";
   import { capitalize } from "$lib/utils";
+  import { setSpinner } from "$lib/stores";
 
   let nombre = "";
   let apellido = "";
@@ -32,17 +33,21 @@
       return;
     }
 
+    setSpinner({ active: true });
+
     const role = await repository.userRole.getByName(tipoUsuario);
     const country = (await repository.country.getAll()).find(
       (c) => c.phone_code === codigoPais,
     );
 
     if (!role || !country) {
+      setSpinner({ active: false });
+
       toast.error("Algo salió mal de nuestro lado.");
       return;
     }
 
-    const success = await repository.auth.signUp({
+    const { error } = await repository.auth.signUp({
       email,
       password,
       first_name: nombre,
@@ -53,7 +58,11 @@
       country,
     });
 
-    if (success) {
+    setSpinner({ active: false });
+
+    if (error) {
+      toast.error("Algo salió mal de nuestro lado.");
+    } else {
       nombre = "";
       apellido = "";
       email = "";
@@ -62,9 +71,9 @@
       tipoUsuario = "";
       telefono = "";
 
-      toast.success("Te has registrado exitosamente.");
+      toast.success("Te has registrado exitosamente, verifica tu correo.");
 
-      goto("?action=sign-in");
+      goto("?action=sign-in", { replaceState: true });
     }
   }
 </script>

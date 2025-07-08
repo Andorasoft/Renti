@@ -4,6 +4,7 @@
   import { toast } from "svoast";
 
   import { TextBox, repository } from "$lib";
+  import { setSpinner } from "$lib/stores";
 
   let newPassword: string = "";
   let confirmPassword: string = "";
@@ -14,9 +15,13 @@
       return;
     }
 
+    setSpinner({ active: true });
+
     const { error } = await repository.auth.updateUser({
       password: newPassword,
     });
+
+    setSpinner({ active: false });
 
     if (error) {
       toast.error("Error al actualizar la contraseña: " + error.message);
