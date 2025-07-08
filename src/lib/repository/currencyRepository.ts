@@ -1,5 +1,5 @@
 import { supabase } from "$lib/supabase";
-import { Currency } from "$lib/models/Currency";
+import Currency from "$lib/models/Currency";
 
 /**
  * Repository object for managing operations related to the `currency` table.

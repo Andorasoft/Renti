@@ -1,5 +1,5 @@
 import { supabase } from "$lib/supabase";
-import { StateType } from "$lib/models/StateType";
+import StateType from "$lib/models/StateType";
 
 /**
  * Repository object for performing data access operations on the `state_type` table.

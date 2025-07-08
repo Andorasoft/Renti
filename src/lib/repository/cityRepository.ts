@@ -1,5 +1,5 @@
 import { supabase } from "$lib/supabase";
-import { City } from "$lib/models/City";
+import City from "$lib/models/City";
 
 /**
  * Repository object for performing operations on the `city` table.

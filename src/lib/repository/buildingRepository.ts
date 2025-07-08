@@ -1,5 +1,5 @@
 import { supabase } from "$lib/supabase";
-import { Building } from "$lib/models/Building";
+import Building from "$lib/models/Building";
 
 /**
  * Repository object for handling database operations related to the `building` table.

@@ -1,5 +1,5 @@
 import { supabase } from "$lib/supabase";
-import { Country } from "$lib/models/Country";
+import Country from "$lib/models/Country";
 
 /**
  * Repository object for performing read operations on the `country` table.

@@ -1,5 +1,5 @@
 import { supabase } from "$lib/supabase";
-import { Unit } from "$lib/models/Unit";
+import Unit from "$lib/models/Unit";
 
 /**
  * Repository object for managing operations on the `unit` table.

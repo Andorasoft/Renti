@@ -10,6 +10,7 @@ import { router } from '$lib/router';
  * If the action is missing or invalid, it redirects to the default action.
  */
 export const load: PageServerLoad = ({ url }) => {
+  console.log(`You are in ${url.pathname}`);
   // Retrieve the route configuration for 'auth' from the central router definition
   const route = router.find(r => r.name === 'auth');
 

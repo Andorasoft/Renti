@@ -1,5 +1,5 @@
 import { supabase } from "$lib/supabase";
-import { UserRole } from "$lib/models/UserRole";
+import UserRole from "$lib/models/UserRole";
 
 /**
  * Repository object for handling operations related to the `user_role` table.

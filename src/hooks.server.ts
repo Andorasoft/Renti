@@ -13,6 +13,11 @@ import { router } from '$lib/router';
  * It attaches the Supabase client and a validated session to `event.locals`.
  */
 const supabase: Handle = async ({ event, resolve }) => {
+  if (dev) {
+    console.log('🔄 [hooks] Llamado desde ruta:', event.url.pathname);
+    console.log('🔍 Stack trace:', new Error().stack);
+  }
+
   /**
    * Create a Supabase client scoped to the current request using cookie-based auth.
    */

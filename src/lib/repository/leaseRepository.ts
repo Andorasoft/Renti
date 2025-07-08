@@ -1,5 +1,5 @@
 import { supabase } from "$lib/supabase";
-import { Lease } from "$lib/models/Lease";
+import Lease from "$lib/models/Lease";
 
 /**
  * Repository object for handling access to the `lease` table.
