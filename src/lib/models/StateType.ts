@@ -1,19 +1,19 @@
 /**
- * Represents a user's role in the system (e.g., admin, tenant).
+ * Represents the type of a state (e.g., province, department).
  */
-export default class UserRole {
+export default class StateType {
   /**
-   * Unique identifier of the role.
+   * Unique identifier of the state type.
    */
   public id: number;
 
   /**
-   * Timestamp when the role was created.
+   * Timestamp when the state type was created.
    */
   public created_at: string;
 
   /**
-   * Name of the role.
+   * Name of the state type (e.g., Province, State, Department).
    */
   public name: string;
 
@@ -28,12 +28,12 @@ export default class UserRole {
   }
 
   /**
-   * Creates a new instance of UserRole from a plain JSON object.
+   * Creates a new instance of StateType from a plain JSON object.
    * @param obj JSON object
-   * @returns UserRole instance
+   * @returns StateType instance
    */
-  static fromJSON(obj: any): UserRole {
-    return new UserRole(
+  static fromJSON(obj: any): StateType {
+    return new StateType(
       obj.id,
       obj.created_at,
       obj.name
@@ -41,7 +41,7 @@ export default class UserRole {
   }
 
   /**
-   * Converts the UserRole instance into a JSON object.
+   * Converts the StateType instance into a JSON object.
    * @returns JSON object representation
    */
   toJSON(): any {

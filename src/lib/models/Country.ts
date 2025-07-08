@@ -1,23 +1,73 @@
-import { Currency } from '$lib';
+import Currency from './Currency';
 
 /**
- * Represents a country where users reside and properties exist.
+ * Represents a country and its associated currency and phone code.
  */
 export default class Country {
-  constructor(
-    public id: number,
-    public created_at: string,
-    public name: string,
-    public iso2: string,
-    public iso3: string,
-    public phone_code: string,
-    public currency_id: number,
-    public currency?: Currency
-  ) { }
+  /**
+   * Unique identifier of the country.
+   */
+  public id: number;
 
   /**
-   * Creates a Country instance from a JSON object.
+   * Timestamp when the country was created.
+   */
+  public created_at: string;
+
+  /**
+   * Official name of the country.
+   */
+  public name: string;
+
+  /**
+   * ISO 3166-1 alpha-2 code (e.g., US, EC).
+   */
+  public iso2: string;
+
+  /**
+   * ISO 3166-1 alpha-3 code (e.g., USA, ECU).
+   */
+  public iso3: string;
+
+  /**
+   * Country phone code (e.g., +1, +593).
+   */
+  public phone_code: string;
+
+  /**
+   * Foreign key to the currency used in the country.
+   */
+  public currency_id: number;
+
+  /**
+   * Optional currency object (expanded reference).
+   */
+  public currency?: Currency;
+
+  constructor(
+    id: number,
+    created_at: string,
+    name: string,
+    iso2: string,
+    iso3: string,
+    phone_code: string,
+    currency_id: number,
+    currency?: Currency
+  ) {
+    this.id = id;
+    this.created_at = created_at;
+    this.name = name;
+    this.iso2 = iso2;
+    this.iso3 = iso3;
+    this.phone_code = phone_code;
+    this.currency_id = currency_id;
+    this.currency = currency;
+  }
+
+  /**
+   * Creates a new instance of Country from a plain JSON object.
    * @param obj JSON object
+   * @returns Country instance
    */
   static fromJSON(obj: any): Country {
     return new Country(
@@ -33,7 +83,8 @@ export default class Country {
   }
 
   /**
-   * Serializes the Country instance to JSON.
+   * Converts the Country instance into a JSON object.
+   * @returns JSON object representation
    */
   toJSON(): any {
     return {

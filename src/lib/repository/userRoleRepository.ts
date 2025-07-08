@@ -1,31 +1,44 @@
-import { supabase } from '$lib/supabase';
-import { UserRole } from "$lib";
+import { supabase } from "$lib/supabase";
+import { UserRole } from "$lib/models/UserRole";
 
 /**
- * UserRole Repository
- *
- * Provides data access methods for the "user_role" table,
- * used to manage roles within the system (e.g., Owner, Tenant, Admin).
+ * Repository object for handling operations related to the `user_role` table.
+ * This table stores the different roles a user can have in the application,
+ * such as "owner", "tenant", or "administrator". These roles define access
+ * permissions and functional scope for each user in the system.
  */
 const userRoleRepository = {
   /**
-   * Fetch all user roles from the database.
+   * Retrieves all user role records from the `user_role` table.
    *
-   * @returns An array of `UserRole` instances. Returns an empty array if an error occurs.
+   * @returns {Promise<UserRole[]>} - A promise that resolves to an array of
+   * `UserRole` model instances representing all user roles in the database.
+   *
+   * If the query fails or returns no data, an empty array is returned instead.
+   * This is commonly used when populating role dropdowns or validating user input.
    */
-  async getAll(): Promise<Array<UserRole>> {
+  async getAll(): Promise<UserRole[]> {
     const { data, error } = await supabase
       .from("user_role")
       .select("*");
 
-    return error ? [] : data.map(UserRole.fromJSON);
+    if (error || !data) {
+      console.error("Failed to fetch user roles:", error?.message);
+      return [];
+    }
+
+    return data.map(UserRole.fromJSON);
   },
 
   /**
-   * Fetch a user role by its unique numeric ID.
+   * Retrieves a specific user role by its unique numeric identifier.
    *
-   * @param id - The ID of the role.
-   * @returns A `UserRole` instance if found, otherwise `null`.
+   * @param {number} id - The unique ID of the user role to retrieve.
+   *
+   * @returns {Promise<UserRole | null>} - A promise that resolves to the `UserRole`
+   * instance if found, or `null` if the role does not exist or if an error occurs.
+   *
+   * Useful for editing roles, displaying user role names based on ID, or validating assignments.
    */
   async getById(id: number): Promise<UserRole | null> {
     const { data, error } = await supabase
@@ -34,23 +47,12 @@ const userRoleRepository = {
       .eq("id", id)
       .single();
 
-    return error ? null : UserRole.fromJSON(data);
-  },
+    if (error || !data) {
+      console.warn(`User role with ID ${id} not found.`, error?.message);
+      return null;
+    }
 
-  /**
-   * Fetch a user role by its unique name.
-   *
-   * @param name - The name of the role (e.g., "owner", "tenant").
-   * @returns A `UserRole` instance if found, otherwise `null`.
-   */
-  async getByName(name: string): Promise<UserRole | null> {
-    const { data, error } = await supabase
-      .from("user_role")
-      .select("*")
-      .eq("name", name)
-      .single();
-
-    return error ? null : UserRole.fromJSON(data);
+    return UserRole.fromJSON(data);
   }
 };
 

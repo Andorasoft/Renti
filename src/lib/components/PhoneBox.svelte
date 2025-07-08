@@ -75,17 +75,13 @@
   <select bind:value={code}>
     {#each countries as country}
       <option value={country.phone_code}>
-        {isoToEmoji(country.iso2)} {country.phone_code}
+        {isoToEmoji(country.iso2)}
+        {country.phone_code}
       </option>
     {/each}
   </select>
 
-  <input
-    type="tel"
-    {placeholder}
-    bind:value={phone}
-    on:keydown={onKeydown}
-  />
+  <input type="tel" {placeholder} bind:value={phone} on:keydown={onKeydown} />
 </label>
 
 <style lang="scss">

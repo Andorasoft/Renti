@@ -8,7 +8,7 @@
 
   let email: string = "";
 
-  async function onSubmit(_: Event) {
+  async function onSubmit(event: Event) {
     setSpinner({ active: true });
 
     await repository.auth.resetPassword(email);

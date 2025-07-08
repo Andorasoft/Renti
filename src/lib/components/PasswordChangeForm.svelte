@@ -9,7 +9,7 @@
   let newPassword: string = "";
   let confirmPassword: string = "";
 
-  async function onSubmit(_: Event) {
+  async function onSubmit(event: Event) {
     if (newPassword !== confirmPassword) {
       toast.error("Las contraseñas no coinciden.");
       return;
