@@ -12,16 +12,16 @@ export const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE
 let authListenerInitialized = false;
 
 export function initAuthListener() {
-  // if (authListenerInitialized) return;
-  // authListenerInitialized = true;
+  if (authListenerInitialized) return;
+  authListenerInitialized = true;
 
-  // supabase.auth.onAuthStateChange((event, session): void => {
-  //   console.log(`Auth state changed to: ${event}`);
+  supabase.auth.onAuthStateChange((event, session): void => {
+    console.log(`Auth state changed to: ${event}`);
 
-  //   if (event === 'SIGNED_IN') {
-  //     //goto('/', { replaceState: true });
-  //   } else if (event === 'SIGNED_OUT') {
-  //     goto('/auth?action=sign-in', { replaceState: true });
-  //   }
-  // });
+    if (event === 'SIGNED_IN') {
+      //goto('/', { replaceState: true });
+    } else if (event === 'SIGNED_OUT') {
+      goto('/auth?action=sign-in', { replaceState: true });
+    }
+  });
 };

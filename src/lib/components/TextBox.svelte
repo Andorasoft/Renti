@@ -43,6 +43,8 @@
    */
   export let required: boolean = false;
 
+  export let disabled: boolean = false;
+
   /**
    * Dispatches custom component events.
    *
@@ -65,7 +67,7 @@
   }
 </script>
 
-<label class="text-box">
+<label class:disabled>
   {#if icon}
     <svelte:component
       this={icon}
@@ -77,6 +79,7 @@
     {type}
     {placeholder}
     {required}
+    {disabled}
     bind:value
     aria-label={placeholder}
     on:keydown={onKeydown}
@@ -84,7 +87,7 @@
 </label>
 
 <style lang="scss">
-  .text-box {
+  label {
     background-color: var(--color-input);
     border-radius: 25pt;
 
@@ -100,20 +103,26 @@
 
     transition: background-color 0.2s ease-in-out;
 
-    & input {
-      background-color: transparent;
-      border: none;
-      outline: none;
-
-      flex-grow: 1;
-
-      &::placeholder {
-        color: var(--color-text-placeholder);
-      }
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      user-select: none;
     }
 
     &:hover {
       background-color: var(--color-input-hover);
+    }
+  }
+
+  input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+    flex-grow: 1;
+
+    &::placeholder {
+      color: var(--color-text-placeholder);
     }
   }
 </style>

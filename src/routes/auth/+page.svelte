@@ -140,12 +140,12 @@
 
         <div class="separator">o</div>
 
-        <button on:click={onGoogleSignIn}>
+        <button type="button" on:click={onGoogleSignIn}>
           <img class="icon" src="/icons/Google.svg" alt="" />
           Acceder con Google
         </button>
 
-        <button on:click={onAppleSignIn} disabled>
+        <button type="button" on:click={onAppleSignIn} disabled>
           <img class="icon" src="/icons/Apple.svg" alt="" />
           Acceder con Apple
         </button>

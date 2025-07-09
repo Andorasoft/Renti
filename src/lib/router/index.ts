@@ -1,11 +1,5 @@
 export const router = [
   {
-    name: "home",
-    path: "/",
-    protected: true,
-    params: []
-  },
-  {
     name: "auth",
     path: "/auth",
     protected: false,
@@ -20,5 +14,23 @@ export const router = [
     queryParams: {
       type: ["recovery", ""] // expected from Supabase magic link
     }
+  },
+  {
+    name: "home",
+    path: "/",
+    protected: true,
+    queryParams: {}
+  },
+  {
+    name: "on-boarding",
+    path: "/onboarding",
+    protected: true,
+    queryParams: {}
+  },
+  {
+    name: "profile",
+    path: "/profile",
+    protected: true,
+    queryParams: {}
   }
 ];

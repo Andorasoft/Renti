@@ -158,6 +158,45 @@ const appUserRepository = {
     }
 
     return AppUser.fromJSON(data);
+  },
+
+  /**
+ * Checks whether a user exists in the `app_user` table by `id` or `email`.
+ *
+ * Only one field is used per call. Priority is given to `id` if both are provided.
+ * The query is performed in lightweight mode without retrieving full user data.
+ *
+ * @param {object} criteria - Object containing either `id` or `email`.
+ * @param {number} [criteria.id] - ID of the user to check.
+ * @param {string} [criteria.email] - Email of the user to check.
+ *
+ * @returns {Promise<boolean>} - A promise that resolves to `true` if a user
+ * with the specified ID or email exists, or `false` otherwise.
+ *
+ * This method is used for existence checks prior to insertions, updates,
+ * or enforcing uniqueness constraints.
+ *
+ * @example
+ * await appUserRepository.exists({ email: "ana@example.com" }); // true or false
+ * await appUserRepository.exists({ id: 42 }); // true or false
+ */
+  async exists(criteria: { id?: number; email?: string }): Promise<boolean> {
+    const query = supabase
+      .from("app_user")
+      .select("id", { count: "exact", head: true });
+
+    if (criteria.id) query.eq("id", criteria.id);
+    else if (criteria.email) query.eq("email", criteria.email);
+    else return false;
+
+    const { count, error } = await query;
+
+    if (error) {
+      console.error("Failed to check existence of user:", error.message);
+      return false;
+    }
+
+    return (count ?? 0) > 0;
   }
 };
 
