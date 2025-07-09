@@ -56,7 +56,7 @@
         "¡Felicidades! Te has registrado exitosamente, por favor verifica tu correo.",
       );
 
-      goto("?action=sign-in", { replaceState: true });
+      goto("?action=signin", { replaceState: true });
     }
   }
 
@@ -154,10 +154,10 @@
     <p>
       {#if data.action === data.actions[1]}
         ¿Ya tienes una cuenta?
-        <a href="?action=sign-in">Inicia sesión</a>
+        <a href="?action=signin">Inicia sesión</a>
       {:else}
         ¿No tienes una cuenta?
-        <a href="?action=sign-up">Regístrate</a>
+        <a href="?action=signup">Regístrate</a>
       {/if}
     </p>
   </div>

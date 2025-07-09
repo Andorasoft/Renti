@@ -29,7 +29,7 @@
     }
 
     toast.success("Contraseña actualizada correctamente.");
-    goto("/auth?action=sign-in");
+    goto("/auth?action=signin");
   }
 </script>
 

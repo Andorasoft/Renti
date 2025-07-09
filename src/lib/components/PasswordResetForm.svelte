@@ -17,7 +17,7 @@
 
     toast.success("Enlace de recuperación enviado.");
 
-    goto("/auth?action=sign-in", { replaceState: true } );
+    goto("/auth?action=signin", { replaceState: true } );
   }
 </script>
 
@@ -35,7 +35,7 @@
     />
     <button class="accent" type="submit">Enviar enlace</button>
   </form>
-  <a href="/auth?action=sign-in">
+  <a href="/auth?action=signin">
     <ArrowLeft color="currentColor" />
     Volver al inicio
   </a>

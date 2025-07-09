@@ -18,7 +18,7 @@ export const GET: RequestHandler = async ({ url, locals: { supabase } }) => {
       await supabase.auth.exchangeCodeForSession(code);
     } catch (err) {
       console.error('OAuth session exchange failed:', err);
-      throw redirect(303, '/auth?action=sign-in&error=oauth_failed');
+      throw redirect(303, '/auth?action=signin&error=oauth_failed');
     }
     throw redirect(303, '/');
   }
@@ -30,7 +30,7 @@ export const GET: RequestHandler = async ({ url, locals: { supabase } }) => {
 
   // Case 3: Magic link - signup confirmation
   if (type === 'signup') {
-    throw redirect(303, '/auth?action=sign-in');
+    throw redirect(303, '/auth?action=signin');
   }
 
   // Case 4: Invalid `type` param provided

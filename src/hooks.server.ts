@@ -44,8 +44,9 @@ const supabase: Handle = async ({ event, resolve }) => {
   };
 
   locals.getUsers = async () => {
-    const { data: { user: auth } }
-      = await locals.supabase.auth.getUser();
+    const {
+      data: { user: auth }
+    } = await locals.supabase.auth.getUser();
 
     if (!auth) return { auth: null, app: null };
 
@@ -74,7 +75,7 @@ const authGuard: Handle = async ({ event, resolve }) => {
 
   // Redirect unauthenticated users accessing protected routes
   if (!session && !isPublic) {
-    throw redirect(303, '/auth?action=sign-in');
+    throw redirect(303, '/auth?action=signin');
   }
 
   // Redirect authenticated users trying to access public login pages

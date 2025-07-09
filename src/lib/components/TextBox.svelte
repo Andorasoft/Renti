@@ -1,74 +1,105 @@
+<!-- TextBox.svelte -->
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
   /**
-   * `TextBox` Component
-   *
-   * A flexible input component that can optionally render an icon and emits
-   * a `submit` event when the user presses Enter.
+   * A flexible input component that optionally renders an icon,
+   * supports validation and accessibility, and emits a submit event on Enter.
    */
 
   /**
-   * Optional icon component to render at the beginning of the input.
-   * It must be a Svelte component (e.g. from Lucide or custom).
-   * @type {any|null}
+   * Icon component (Svelte component class) to render inside the input.
+   * @type {any | null}
+   * @default null
    */
   export let icon: any | null = null;
 
   /**
-   * Placeholder text shown inside the input field.
+   * Placeholder text shown when the input is empty.
+   * Used also for aria-label accessibility.
    * @type {string}
+   * @default ""
    */
   export let placeholder: string = "";
 
   /**
-   * The input type (e.g. "text", "email", "password").
-   * Defaults to `"text"`.
+   * The value of the input field.
+   * Supports two-way binding via `bind:value`.
+   * @type {string}
+   * @default ""
+   */
+  export let value: string = "";
+
+  /**
+   * Marks the input as required for form validation.
+   * Maps to the native HTML `required` attribute.
+   * @type {boolean}
+   * @default false
+   */
+  export let required: boolean = false;
+
+  /**
+   * Disables the input and the entire label container.
+   * Prevents user interaction.
+   * @type {boolean}
+   * @default false
+   */
+  export let disabled: boolean = false;
+
+  /**
+   * Makes the input readonly, allowing focus but no edits.
+   * Maps to the native HTML `readonly` attribute.
+   * @type {boolean}
+   * @default false
+   */
+  export let readonly: boolean = false;
+
+  /**
+   * Defines the HTML input type attribute.
+   * Allowed values: "text", "email", "password".
    * @type {"text" | "email" | "password"}
+   * @default "text"
    */
   export let type: "text" | "email" | "password" = "text";
 
   /**
-   * The bound value of the input field.
-   * Supports two-way binding via `bind:value`.
-   * @type {any}
+   * Unique ID for the input element.
+   * Used for accessibility features such as `aria-describedby`.
+   * Generated automatically if not provided.
+   * @type {string}
    */
-  export let value: any = "";
+  export let id: string = crypto.randomUUID();
 
   /**
-   * Whether the input is required for form validation.
-   * When set to `true`, the input must be filled before submitting.
-   * Maps to the native HTML `required` attribute.
-   * @type {boolean}
+   * Optional error message string.
+   * When present, input is marked invalid with aria-invalid="true" and
+   * this message is displayed below the input.
+   * @type {string | null}
+   * @default null
    */
-  export let required: boolean = false;
-
-  export let disabled: boolean = false;
+  export let error: string | null = null;
 
   /**
-   * Dispatches custom component events.
-   *
-   * @event submit
-   * @property {Object} detail
-   * @property {string} detail.text - The current value of the input field
+   * Svelte event dispatcher used to emit custom events.
    */
   const dispatch = createEventDispatcher();
 
   /**
-   * Handles keydown events.
-   * If the key is Enter, dispatches the `submit` event.
+   * Keyboard event handler.
+   * Dispatches a `submit` event when the Enter key is pressed.
    *
-   * @param {KeyboardEvent} event - The keyboard event
+   * @param {KeyboardEvent} event - The keyboard event object.
    */
   function onKeydown(event: KeyboardEvent): void {
     if (event.key === "Enter") {
-      dispatch("submit", { text: value });
+      dispatch("submit", { value });
     }
   }
 </script>
 
 <label class:disabled>
   {#if icon}
+    <!-- Render optional icon component with fixed size and placeholder color -->
     <svelte:component
       this={icon}
       size="20"
@@ -80,18 +111,28 @@
     {placeholder}
     {required}
     {disabled}
+    {readonly}
     bind:value
     aria-label={placeholder}
+    aria-invalid={error ? "true" : "false"}
+    aria-describedby={error ? `${id}-error` : undefined}
+    {id}
     on:keydown={onKeydown}
   />
 </label>
+
+{#if error}
+  <!-- Error message, linked to input via aria-describedby -->
+  <p id="{id}-error" class="error-text" role="alert" aria-live="assertive">
+    {error}
+  </p>
+{/if}
 
 <style lang="scss">
   label {
     background-color: var(--color-input);
     border-radius: 25pt;
-
-    padding: 0.25rem 1rem;
+    padding: 0.5rem 1rem;
     width: 100%;
     height: 3rem;
 
@@ -118,11 +159,22 @@
     background-color: transparent;
     border: none;
     outline: none;
+    flex: 1;
 
-    flex-grow: 1;
+    height: 100%;
 
     &::placeholder {
       color: var(--color-text-placeholder);
     }
+
+    &[aria-invalid="true"] {
+      color: red;
+    }
+  }
+
+  .error-text {
+    color: var(--color-danger, red);
+    font-size: 0.8rem;
+    margin: 0.25rem 1rem 0 1rem;
   }
 </style>

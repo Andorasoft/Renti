@@ -19,9 +19,9 @@ export function initAuthListener() {
     console.log(`Auth state changed to: ${event}`);
 
     if (event === 'SIGNED_IN') {
-      //goto('/', { replaceState: true });
+      goto('/', { replaceState: true });
     } else if (event === 'SIGNED_OUT') {
-      goto('/auth?action=sign-in', { replaceState: true });
+      goto('/auth?action=signin', { replaceState: true });
     }
   });
 };

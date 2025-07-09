@@ -94,7 +94,7 @@ const authRepository = {
       password: attributes.password,
       phone: attributes.phone ?? '',
       options: {
-        emailRedirectTo: `${origin}/auth?action=sign-in`,
+        emailRedirectTo: `${origin}/auth/callback`,
       },
     });
 

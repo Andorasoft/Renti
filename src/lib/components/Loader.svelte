@@ -13,7 +13,15 @@
     <div
       class="circle"
       class:pause-animation={config.pause}
-      style="--size: {config.size}{config.unit}; --colorInner: {config.colorInner}; --colorCenter: {config.colorCenter}; --colorOuter: {config.colorOuter}; --durationInner: {config.durationInner}; --durationCenter: {config.durationCenter}; --durationOuter: {config.durationOuter};"
+      style="
+      --size: {config.size}{config.unit};
+      --colorInner: {config.colorInner};
+      --colorCenter: {config.colorCenter};
+      --colorOuter: {config.colorOuter};
+      --durationInner: {config.durationInner};
+      --durationCenter: {config.durationCenter};
+      --durationOuter: {config.durationOuter};
+      "
     ></div>
   </div>
 {/if}

@@ -1,9 +1,10 @@
 import { redirect, type ServerLoadEvent } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
+import type { AuthUser } from '@supabase/supabase-js';
+import { dev } from '$app/environment';
 
 import { normalize } from '$lib/utils';
 import { AppUser } from '$lib';
-import type { AuthUser } from '@supabase/supabase-js';
 
 const ONBOARDING_PATH = '/onboarding';
 
@@ -32,11 +33,11 @@ export const load: LayoutServerLoad = async ({ locals, url }: ServerLoadEvent): 
   const { auth, app } = await locals.getUsers();
   const pathname = normalize(url.pathname);
 
-  if (!app && pathname !== ONBOARDING_PATH) {
+  if (auth && !app && pathname !== ONBOARDING_PATH) {
     throw redirect(302, ONBOARDING_PATH);
   }
 
-  if (app && pathname === ONBOARDING_PATH) {
+  if (auth && app && pathname === ONBOARDING_PATH) {
     throw redirect(302, '/');
   }
 
