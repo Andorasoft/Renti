@@ -1,6 +1,25 @@
+import { goto } from '$app/navigation';
 import { customAlphabet } from 'nanoid';
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+/**
+ * Handles navigation from an anchor element using SvelteKit's `goto` function.
+ * It prevents the default link behavior and optionally replaces the browser history entry.
+ *
+ * @param event - The MouseEvent triggered by clicking an <a> element.
+ * @param replace - Whether to replace the current history entry (default: `true`).
+ */
+export function navigate(event: MouseEvent, replace: boolean = true): void {
+  const anchor = event.currentTarget as HTMLAnchorElement;
+  const href = anchor.href;
+
+  const url = new URL(href);
+  const relative = url.pathname + url.search + url.hash;
+
+  goto(relative, { replaceState: replace });
+}
+
 
 /**
  * Generate a short pseudo-unique identifier.

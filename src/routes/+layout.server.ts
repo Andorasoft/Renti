@@ -1,7 +1,6 @@
 import { redirect, type ServerLoadEvent } from '@sveltejs/kit';
-import type { LayoutServerLoad } from './$types';
 import type { AuthUser } from '@supabase/supabase-js';
-import { dev } from '$app/environment';
+import type { LayoutServerLoad } from './$types';
 
 import { normalize } from '$lib/utils';
 import { AppUser } from '$lib';

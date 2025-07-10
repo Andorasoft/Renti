@@ -5,10 +5,10 @@ import { redirect } from '@sveltejs/kit';
  * List of valid `action` query parameters allowed on the /auth page.
  * Must match the available authentication modes in the UI.
  */
-const RECOVERY_TYPES = ['recovery', ''];
+const RECOVERY_TYPES = ['reset', 'recovery'];
 
 /**
- * Page load function for the /auth route.
+ * Page load function for the /auth/password route.
  * 
  * Ensures that the `action` query parameter is present and valid.
  * - If `action` is missing or invalid, the user is redirected to the default action.
@@ -19,15 +19,16 @@ const RECOVERY_TYPES = ['recovery', ''];
  * @returns {{ action: string, actions: readonly string[] }} - Validated current action and full list.
  * @throws {Redirect} - If the `action` is invalid, redirects to the default.
  */
-export const load: PageLoad = ({ url }: PageLoadEvent): { type: string; types: string[] } => {
+export const load: PageLoad = ({ url }: PageLoadEvent): { QUERY_TYPE: string, QUERY_TYPES: string[] } => {
+  const defaultType = RECOVERY_TYPES[0];
   const currentType = url.searchParams.get('type') ?? '';
 
   if (!RECOVERY_TYPES.includes(currentType)) {
-    throw redirect(302, `/auth/password_reset`);
+    throw redirect(302, `?type=${defaultType}`);
   }
 
   return {
-    type: currentType,
-    types: RECOVERY_TYPES
+    QUERY_TYPE: currentType,
+    QUERY_TYPES: RECOVERY_TYPES
   };
 };

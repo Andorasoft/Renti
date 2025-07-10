@@ -75,7 +75,7 @@ const authGuard: Handle = async ({ event, resolve }) => {
 
   // Redirect unauthenticated users accessing protected routes
   if (!session && !isPublic) {
-    throw redirect(303, '/auth?action=signin');
+    throw redirect(303, '/auth/signin');
   }
 
   // Redirect authenticated users trying to access public login pages

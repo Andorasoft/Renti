@@ -19,16 +19,16 @@ const AUTH_ACTIONS = ['signin', 'signup'];
  * @returns {{ action: string, actions: readonly string[] }} - Validated current action and full list.
  * @throws {Redirect} - If the `action` is invalid, redirects to the default.
  */
-export const load: PageLoad = ({ url }: PageLoadEvent): { action: string; actions: string[] } => {
+export const load: PageLoad = ({ url }: PageLoadEvent): { QUERY_ACTION: string, QUERY_ACTIONS: string[] } => {
   const defaultAction = AUTH_ACTIONS[0];
   const currentAction = url.searchParams.get('action') ?? '';
 
   if (!AUTH_ACTIONS.includes(currentAction)) {
-    throw redirect(302, `/auth?action=${defaultAction}`);
+    throw redirect(302, `?action=${defaultAction}`);
   }
 
   return {
-    action: currentAction,
-    actions: AUTH_ACTIONS
+    QUERY_ACTION: currentAction,
+    QUERY_ACTIONS: AUTH_ACTIONS
   };
 };

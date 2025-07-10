@@ -1,5 +1,5 @@
-import { writable } from 'svelte/store';
-import type { CircleSpinner } from '$lib';
+import { writable, readable } from "svelte/store";
+import type { CircleSpinner } from "$lib";
 
 const loader: CircleSpinner = {
   size: '60',
@@ -22,3 +22,14 @@ export const spinner = writable<CircleSpinner>({ ...loader });
 export function setSpinner(partial: Partial<CircleSpinner>) {
   spinner.update(s => ({ ...s, ...partial }));
 }
+
+export const screenWidth = readable(0, (set) => {
+  if (typeof window === 'undefined') return;
+
+  const update = () => set(window.innerWidth);
+
+  update();
+  window.addEventListener('resize', update);
+
+  return () => window.removeEventListener('resize', update);
+});

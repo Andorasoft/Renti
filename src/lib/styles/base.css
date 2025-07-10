@@ -1,3 +1,7 @@
+:root {
+  --bg-color-transition: background-color 0.2s ease-in-out;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -11,8 +15,8 @@ html {
 }
 
 body {
-  background-color: var(--bg-color);
-  width: 100%;
+  background-color: var(--color-background);
+
   display: flex;
   flex-direction: column;
 }
@@ -22,7 +26,7 @@ body {
   min-height: 100vh;
 }
 
-#app {
+body>div {
   width: 100%;
   flex: 1;
   display: flex;
@@ -32,43 +36,53 @@ body {
 /**/
 a {
   text-decoration: none;
-  color: var(--color-accent);
+  color: var(--color-primary);
 
   cursor: pointer;
+
+  transition: var(--bg-color-transition);
 }
 
 a:hover {
-  color: var(--color-accent-light1);
+  color: var(--color-primary-dark);
 }
 
 /**/
 button {
-  background-color: var(--color-button);
-  border-radius: 25pt;
-  border: none;
+  background-color: var(--color-surface);
+  border-radius: 0.5rem;
+  border: solid 1px var(--color-border);
   outline: none;
   color: var(--color-text);
 
-  width: 100%;
   min-height: 3rem;
 
-  transition: background-color 0.2s ease-in-out;
+  transition: var(--bg-color-transition);
 }
 
 button:hover {
-  background-color: var(--color-button-hover);
+  background-color: var(--hover-input);
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+button.primary {
+  background-color: var(--color-primary-text);
+  color: var(--color-surface);
+}
+
+button.primary:hover {
+  background-color: var(--text-high);
 }
 
 button.accent {
-  background-color: var(--color-accent);
-  color: var(--color-text-negative);
+  background-color: var(--color-primary);
+  color: var(--color-surface);
 }
 
 button.accent:hover {
-  background-color: var(--color-accent-dark1);
+  background-color: var(--hover-primary);
+}
+
+*:disabled {
+  background-color: var(--color-disabled);
+  cursor: not-allowed;
 }

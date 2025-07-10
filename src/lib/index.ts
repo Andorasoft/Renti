@@ -11,13 +11,23 @@ import stateTypeRepository from "./repository/stateTypeRepository";
 import unitRepository from "./repository/unitRepository";
 import userRoleRepository from "./repository/userRoleRepository";
 
+/* Commons components */
+export { default as InputCheckbox } from './components/commons/InputCheckbox.svelte';
+export { default as InputFile } from './components/commons/InputFile.svelte';
+export { default as InputPhone } from './components/commons/InputPhone.svelte';
+export { default as InputSearch } from './components/commons/InputSearch.svelte';
+export { default as InputText } from './components/commons/InputText.svelte';
+
+/* Forms components */
+export { default as FormPasswordReset } from './components/forms/FormPasswordReset.svelte';
+export { default as FormPasswordUpdate } from './components/forms/FormPasswordUpdate.svelte';
+export { default as FormSignIn } from './components/forms/FormSignIn.svelte';
+export { default as FormSignUp } from './components/forms/FormSignUp.svelte';
+
 export { default as DatePicker } from "./components/DatePicker.svelte";
 export { default as Loader } from "./components/Loader.svelte";
 export { default as PhoneBox } from "./components/PhoneBox.svelte";
-export { default as PasswordResetForm } from "./components/PasswordResetForm.svelte";
-export { default as PasswordChangeForm } from "./components/PasswordChangeForm.svelte";
 export { default as SearchBox } from "./components/SearchBox.svelte";
-export { default as TextBox } from "./components/TextBox.svelte";
 
 export type { CircleSpinner } from "./types/CircleSpinner";
 export type { QueryError } from "./types/QueryError";
