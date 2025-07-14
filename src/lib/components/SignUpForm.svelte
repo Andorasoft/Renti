@@ -55,8 +55,11 @@
 	class="sign-in-form"
 	on:submit={handleSubmit}
 >
-	<h2>Inicia sesión</h2>
-	<p>Inicia sesión para acceder a tu cuenta y gestionar todo desde un solo lugar</p>
+	<h2>
+		<img src="/icons/AppLogo.svg" alt="" />
+		Crear cuenta
+	</h2>
+	<p>Regístrate para comenzar a gestionar tus propiedades y alquileres</p>
 
 	<!-- Email input -->
 	<TextBox
@@ -121,6 +124,15 @@
 
 	h2 {
 		margin-bottom: -0.5rem;
+
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+
+		& img {
+			width: 2.5rem;
+			height: auto;
+		}
 	}
 
 	p {

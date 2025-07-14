@@ -94,7 +94,7 @@ const authGuard: Handle = async ({ event, resolve }) => {
  * Sets values into `event.locals.lang` and `event.locals.theme`.
  */
 const preferences: Handle = async ({ event, resolve }) => {
-  const theme: any = event.cookies.get('theme') ?? 'dark';
+  const theme: any = event.cookies.get('theme') ?? 'light';
   const lang: any = event.cookies.get('lang') ?? 'es';
 
   event.locals.config = { theme, lang };

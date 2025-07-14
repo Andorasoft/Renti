@@ -8,6 +8,7 @@
 		if (event.button !== 0) return;
 
 		await supabase.auth.signOut();
+		await supabase.auth.refreshSession();
 	}
 </script>
 
