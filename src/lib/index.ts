@@ -2,6 +2,8 @@ export { default as AppPage } from './components/AppPage.svelte';
 export { default as BottomBar } from './components/BottomBar.svelte';
 export { default as CheckBox } from './components/CheckBox.svelte';
 export { default as LottiePlayer } from './components/LottiePlayer.svelte';
+export { default as PasswordRecoveryForm } from './components/PasswordRecoveryForm.svelte';
+export { default as PasswordResetForm } from './components/PasswordResetForm.svelte';
 export { default as SearchBox } from "./components/SearchBox.svelte";
 export { default as SignInForm } from './components/SignInForm.svelte';
 export { default as SignUpForm } from './components/SignUpForm.svelte';

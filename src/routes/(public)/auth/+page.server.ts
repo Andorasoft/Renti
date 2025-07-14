@@ -1,29 +1,5 @@
-import type { PageServerLoad, PageServerLoadEvent } from "./$types";
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-
-
-type PageData = {
-  message: string;
-  user: any | null;
-};
-
-/**
- * Loads server-side data for the page.
- *
- * @param {object} context - Load event context
- * @param {App.Locals} context.locals - The current request's local data (e.g. user session)
- * @param {Record<string, string>} context.params - Dynamic route parameters
- * @returns {Promise<PageData>} - Data to be passed to the page
- */
-export const load: PageServerLoad = async ({ locals, params }: PageServerLoadEvent): Promise<PageData> => {
-  //const { appUser } = await locals.getUsers() ?? null;
-
-  return {
-    message: 'Hello from +page.server.ts',
-    user: null
-  };
-};
 
 /**
  * Handles login and signup actions using SvelteKit form actions.
@@ -33,17 +9,22 @@ export const actions: Actions = {
    * Authenticates a user by email and password.
    *
    * @param request - The incoming form request.
-   * @returns Redirects to dashboard or returns error message.
+   * @returns Redirects to home or returns error message.
    */
   signin: async ({ locals, request }) => {
     const formData = await request.formData();
-    const email = formData.get('email')?.toString() ?? '';
+    const email = formData.get('email')?.toString().trim() ?? '';
     const password = formData.get('password')?.toString() ?? '';
 
-    const { error } = await locals.supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+    if (!email || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+      return fail(400, { message: 'Debes ingresar un correo electrónico válido.' });
+    }
+
+    if (!password || password.length < 8) {
+      return fail(400, { message: 'La contraseña debe tener al menos 8 caracteres.' });
+    }
+
+    const { error } = await locals.supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       return fail(400, {
@@ -61,24 +42,27 @@ export const actions: Actions = {
    * Registers a new user using email and password.
    *
    * @param request - The incoming form request.
-   * @returns Redirects to confirmation page or returns error.
+   * @returns Redirects to signin or returns validation error.
    */
   signup: async ({ locals, request }) => {
     const formData = await request.formData();
-    const email = formData.get('email')?.toString() ?? '';
+    const email = formData.get('email')?.toString().trim() ?? '';
     const password = formData.get('password')?.toString() ?? '';
     const confirmPassword = formData.get('confirm_password')?.toString() ?? '';
 
-    if (password !== confirmPassword) {
-      return fail(400, {
-        message: 'Las contraseñas no coinciden.'
-      });
+    if (!email || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+      return fail(400, { message: 'Debes ingresar un correo electrónico válido.' });
     }
 
-    const { error } = await locals.supabase.auth.signUp({
-      email,
-      password
-    });
+    if (!password || password.length < 8) {
+      return fail(400, { message: 'La contraseña debe tener al menos 8 caracteres.' });
+    }
+
+    if (password !== confirmPassword) {
+      return fail(400, { message: 'Las contraseñas no coinciden.' });
+    }
+
+    const { error } = await locals.supabase.auth.signUp({ email, password });
 
     if (error) {
       return fail(400, {
