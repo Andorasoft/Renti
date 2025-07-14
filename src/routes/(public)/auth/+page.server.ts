@@ -44,7 +44,7 @@ export const actions: Actions = {
    * @param request - The incoming form request.
    * @returns Redirects to signin or returns validation error.
    */
-  signup: async ({ locals, request }) => {
+  signup: async ({ locals, request, url }) => {
     const formData = await request.formData();
     const email = formData.get('email')?.toString().trim() ?? '';
     const password = formData.get('password')?.toString() ?? '';
@@ -62,7 +62,13 @@ export const actions: Actions = {
       return fail(400, { message: 'Las contraseñas no coinciden.' });
     }
 
-    const { error } = await locals.supabase.auth.signUp({ email, password });
+    const { error } = await locals.supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${url.origin}/auth/callback?type=signup`
+      }
+    });
 
     if (error) {
       return fail(400, {

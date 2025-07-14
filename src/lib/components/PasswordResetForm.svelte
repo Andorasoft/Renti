@@ -54,6 +54,7 @@
 		bind:value={email}
 		title="Correo electrónico"
 		placeholder="Escribe tu correo electrónico"
+		autocomplete="email"
 		required
 	/>
 

@@ -32,6 +32,13 @@ export const GET: RequestHandler = async ({ url, locals: { supabase } }: Request
   const errorParam = url.searchParams.get('error');
   const errorDescription = url.searchParams.get('error_description');
 
+  console.log({
+    code,
+    type,
+    error: errorParam,
+    description: errorDescription
+  });
+
   // Case 0: Error returned by Supabase
   if (errorParam) {
     const message = errorDescription || 'Authentication failed.';
@@ -54,12 +61,13 @@ export const GET: RequestHandler = async ({ url, locals: { supabase } }: Request
   }
 
   // Case 2: Magic link - password recovery
-  if (type === 'recovery') {
+  if (!error && type === 'recovery') {
+    console.log(`Type 'recovery', redirecting to /auth/password?type=${type}...`);
     throw redirect(303, `/auth/password?type=${type}`);
   }
 
   // Case 3: Magic link - signup confirmation
-  if (type === 'signup') {
+  if (!error && type === 'signup') {
     throw redirect(303, '/auth?action=signin');
   }
 

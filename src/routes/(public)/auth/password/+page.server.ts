@@ -1,5 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
+import { dev } from '$app/environment';
 
 /**
  * Handles password reset and recovery actions using SvelteKit form actions.
@@ -11,7 +12,7 @@ export const actions: Actions = {
    * @param request - The incoming form request.
    * @returns Redirects to signin page or returns error message.
    */
-  reset: async ({ locals, request }) => {
+  reset: async ({ locals, request, url }) => {
     const formData = await request.formData();
     const email = formData.get('email')?.toString().trim() ?? '';
 
@@ -21,7 +22,10 @@ export const actions: Actions = {
       });
     }
 
-    const { error } = await locals.supabase.auth.resetPasswordForEmail(email);
+    const { error } = await locals.supabase.auth.resetPasswordForEmail(
+      email, {
+      redirectTo: `${url.origin}/auth/callback?type=recovery`
+    });
 
     if (error) {
       return fail(400, {
