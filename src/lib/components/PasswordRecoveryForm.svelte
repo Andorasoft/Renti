@@ -62,8 +62,8 @@
 	<TextBox
 		icon={Mail}
 		type="password"
-		name="password"
-		bind:value={password}
+		name="confirm_password"
+		bind:value={confirmPassword}
 		title="Confirmar nueva contraseña"
 		placeholder="Vuelve a escribir la contraseña"
 		required

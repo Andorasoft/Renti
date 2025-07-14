@@ -1,5 +1,5 @@
 import type { RequestEvent, RequestHandler } from './$types';
-import { error, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { dev } from '$app/environment';
 
 /**
@@ -27,17 +27,10 @@ import { dev } from '$app/environment';
  * @throws {HttpError} 400 for invalid `type`, 404 for missing/invalid parameters.
  */
 export const GET: RequestHandler = async ({ url, locals: { supabase } }: RequestEvent): Promise<Response> => {
-  const code = url.searchParams.get('code');
-  const type = url.searchParams.get('type');
+  const codeParam = url.searchParams.get('code');
+  const typeParam = url.searchParams.get('type');
   const errorParam = url.searchParams.get('error');
   const errorDescription = url.searchParams.get('error_description');
-
-  console.log({
-    code,
-    type,
-    error: errorParam,
-    description: errorDescription
-  });
 
   // Case 0: Error returned by Supabase
   if (errorParam) {
@@ -46,36 +39,27 @@ export const GET: RequestHandler = async ({ url, locals: { supabase } }: Request
   }
 
   // Case 1: OAuth login (e.g., Google)
-  if (code) {
-    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+  if (codeParam) {
+    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(codeParam);
 
     if (exchangeError) {
-      if (!dev) {
-        console.error('OAuth session exchange failed:', exchangeError);
-      }
-
-      throw redirect(303, '/auth?action=signin&error=oauth_failed');
+      throw redirect(303, '/auth/error?message=oauth_failed');
     }
 
-    throw redirect(303, '/');
+    if (typeParam !== 'recovery') {
+      throw redirect(303, '/');
+    }
   }
 
-  // Case 2: Magic link - password recovery
-  if (!error && type === 'recovery') {
-    console.log(`Type 'recovery', redirecting to /auth/password?type=${type}...`);
-    throw redirect(303, `/auth/password?type=${type}`);
+  switch (typeParam) {
+    case 'recovery':
+      // Case 2: Magic link - password recovery
+      throw redirect(303, `/auth/password?type=${typeParam}`);
+    case 'signup':
+      // Case 3: Magic link - signup confirmation
+      throw redirect(303, '/auth?action=signin');
+    default:
+      // Case 5: No usable parameters — likely malformed URL or manual access
+      throw redirect(303, `/auth/error?message=${encodeURIComponent('Callback parameters missing or invalid.')}`);
   }
-
-  // Case 3: Magic link - signup confirmation
-  if (!error && type === 'signup') {
-    throw redirect(303, '/auth?action=signin');
-  }
-
-  // Case 4: Invalid `type` param provided
-  if (type && !['recovery', 'signup'].includes(type)) {
-    throw error(400, `Invalid callback type: "${type}"`);
-  }
-
-  // Case 5: No usable parameters — likely malformed URL or manual access
-  throw redirect(303, `/auth/error?message=${encodeURIComponent('Callback parameters missing or invalid.')}`);
 };

@@ -87,7 +87,7 @@
 >
 	<h2>
 		<img src="/icons/AppLogo.svg" alt="" />
-		Inicia sesión
+		Iniciar sesión
 	</h2>
 	<p>Inicia sesión para acceder a tu cuenta y gestionar todo desde un solo lugar</p>
 

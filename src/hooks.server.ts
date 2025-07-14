@@ -11,11 +11,7 @@ import { dev } from '$app/environment';
  * It attaches the Supabase client and a validated session to `event.locals`.
  */
 const supabase: Handle = async ({ event, resolve }) => {
-  const { url, cookies, locals } = event;
-
-  if (dev) {
-    console.log('🔄 [hooks] Llamado desde ruta:', url.pathname);
-  }
+  const { cookies, locals } = event;
 
   locals.supabase = createServerClient(
     PUBLIC_SUPABASE_URL,
@@ -69,20 +65,22 @@ const supabase: Handle = async ({ event, resolve }) => {
  * Redirects users based on whether they are authenticated or not.
  */
 const authGuard: Handle = async ({ event, resolve }) => {
+  const typeParam = event.url.searchParams.get('type');
   const { pathname } = event.url;
+  const { method } = event.request;
 
-  // Only /auth and its children are public
-  const isPublic = pathname.startsWith('/auth');
-
+  // Only /auth and /info and their children are public
+  const isPublic = pathname.startsWith('/auth') || pathname.startsWith('/info');
   const { session } = await event.locals.getSession();
 
-  // Redirect unauthenticated users accessing protected routes
+  // ⛔ Block unauthenticated users accessing private routes
   if (!session && !isPublic) {
     throw redirect(303, '/auth?action=signin');
   }
 
-  // Redirect authenticated users trying to access public login pages
-  if (session && isPublic) {
+  // ✅ Allow POST to public pages like /auth/password even if user is logged in
+  if (session && isPublic && method !== 'POST' && typeParam !== 'recovery') {
+    console.log(method);
     throw redirect(303, '/');
   }
 
@@ -94,7 +92,7 @@ const authGuard: Handle = async ({ event, resolve }) => {
  * Sets values into `event.locals.lang` and `event.locals.theme`.
  */
 const preferences: Handle = async ({ event, resolve }) => {
-  const theme: any = event.cookies.get('theme') ?? 'light';
+  const theme: any = event.cookies.get('theme') ?? 'dark';
   const lang: any = event.cookies.get('lang') ?? 'es';
 
   event.locals.config = { theme, lang };
