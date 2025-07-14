@@ -1,5 +1,5 @@
 <script lang="ts">
-	//import { initAuthListener } from '$lib';
+	import { initAuthListener } from '$lib';
 	import '$lib/styles/app.css';
 	import { onMount } from 'svelte';
 	import { Toasts } from 'svoast';
@@ -8,7 +8,7 @@
 	// location.reload();
 
 	onMount(() => {
-		//initAuthListener();
+		initAuthListener();
 	});
 </script>
 

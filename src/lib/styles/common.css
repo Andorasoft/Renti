@@ -18,8 +18,12 @@
   user-select: none;
 }
 
+/* Normalize appearance for all inputs */
 input {
   background-color: transparent;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 
 input:-webkit-autofill,
@@ -30,6 +34,29 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: var(--color-primary);
   transition: background-color 50000s ease-in-out 0s;
   box-shadow: inset 0 0 20px 20px transparent;
+}
+
+/* Hide internal browser UI elements in all input types */
+
+/* Chrome, Safari, Edge: clear buttons, autofill, calendar, spin buttons */
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button,
+input::-webkit-clear-button,
+input::-webkit-inner-spin-button,
+input::-webkit-calendar-picker-indicator {
+  display: none !important;
+  appearance: none !important;
+}
+
+/* Firefox: clear button */
+input::-moz-clear {
+  display: none !important;
+}
+
+/* Internet Explorer / old Edge: clear and password reveal buttons */
+input::-ms-clear,
+input::-ms-reveal {
+  display: none !important;
 }
 
 /**
