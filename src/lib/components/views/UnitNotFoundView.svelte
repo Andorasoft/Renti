@@ -1,20 +1,10 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { Copy } from '@lucide/svelte';
-
-	const width: number = 250;
+	import LottiePlayer from '../LottiePlayer.svelte';
 </script>
 
 <div class="view-container">
-	{#if browser}
-		<lottie-player
-			src="/anims/Error.json"
-			background="transparent"
-			style="width: 150px; height: 150px;"
-			autoplay
-			loop
-		></lottie-player>
-	{/if}
+	<LottiePlayer src="/anims/Error.json" />
 	<h2>¡Ups! <br /> No encontramos tu unidad</h2>
 	<p>Aún no formas parte de ninguna unidad habitacional.</p>
 	<div class="separator"></div>
