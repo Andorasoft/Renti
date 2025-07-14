@@ -6,15 +6,16 @@
 
 <div class="view-container">
 	{#if browser}
-		<svelte:component
+		<div></div>
+		<!-- <svelte:component
 			this={LottiePlayer}
-			src="/anims/Error.json"
+			src="/anims/Confetti.json"
 			width={175}
 			height={175}
 			autoplay
 			loop
 			background="transparent"
-		/>
+		/> -->
 	{/if}
 	<h2>¡Ups! <br /> No encontramos tu unidad</h2>
 	<p>Aún no formas parte de ninguna unidad habitacional.</p>
