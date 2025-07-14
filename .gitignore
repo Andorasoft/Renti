@@ -1,23 +1,45 @@
+############################################
+# 📦 Node.js dependencies
+# Ignore installed packages
+############################################
 node_modules
 
-# Output
+############################################
+# 🏗️ Build output directories
+# Generated automatically by build or deployment tools
+############################################
 .output
 .vercel
 .netlify
 .wrangler
 /.svelte-kit
-/build
+/build 
 
-# OS
+############################################
+# 📄 Documentation (optional)
+# Ignore generated or local-only docs
+############################################
+/docs
+
+############################################
+# 🖥️ OS-specific files
+# System-generated metadata that should be excluded
+############################################
 .DS_Store
 Thumbs.db
 
-# Env
+############################################
+# 🔐 Environment variables
+# Secrets or configuration values per environment
+############################################
 .env
 .env.*
 !.env.example
 !.env.test
 
-# Vite
+############################################
+# ⚙️ Vite cache timestamps
+# Temporary cache files from Vite (if present)
+############################################
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*

@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-	<title>Arrienda — Gestión de arriendos</title>
+	<title>Reti — Gestión de arriendos</title>
 </svelte:head>
 <div style="display: contents;">
 	<slot />
