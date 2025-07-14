@@ -3,6 +3,10 @@ import type { AppConfig } from '$lib';
 
 declare global {
 	namespace App {
+		// interface Error {
+		// 	code: string,
+		// 	message: string
+		// }
 		interface Locals {
 			config: AppConfig
 			supabase: SupabaseClient,

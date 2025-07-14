@@ -3,6 +3,8 @@
 	import { LockKeyhole, User } from '@lucide/svelte';
 	import TextBox from './TextBox.svelte';
 	import { enhance } from '$app/forms';
+	import { supabase } from '$lib/supabase';
+	import { toast } from 'svoast';
 
 	/**
 	 * SvelteKit form action used to handle server-side logic.
@@ -54,8 +56,24 @@
 	 *
 	 * @todo Implement Google login logic
 	 */
-	function handleClickGoogle(event: MouseEvent) {
-		TODO: 'Implement Google auth...';
+	async function handleClickGoogle(event: MouseEvent) {
+		const { error } = await supabase.auth.signInWithOAuth({
+			provider: 'google',
+			options: {
+				redirectTo: `${origin}/auth/callback`,
+				queryParams: {
+					prompt: 'select_account'
+				}
+			}
+		});
+
+		if (error) {
+			toast.error(
+				error.message.includes('popup_closed_by_user')
+					? 'Inicio de sesión cancelado.'
+					: 'Error al iniciar sesión con Google. Intenta nuevamente.'
+			);
+		}
 	}
 </script>
 
