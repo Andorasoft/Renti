@@ -40,7 +40,7 @@
 
 <style lang="scss">
 	.top-bar {
-		padding: 0.5rem;
+		padding: 1rem;
 
 		display: grid;
 		grid-template-columns: auto max-content;
