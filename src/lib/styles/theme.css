@@ -1,0 +1,172 @@
+:root {
+  /* === 🎨 CONSTANT COLORS (shared across all themes) === */
+
+  --color-black: #000000;
+  /* Absolute black, used for icons, contrast, or base buttons */
+
+  --color-white: #ffffff;
+  /* Absolute white, used for text on dark surfaces or backgrounds */
+
+  --color-primary: #3B82F6;
+  /* Bright blue – used for primary actions and highlights */
+
+  --color-primary-hover: #2563EB;
+  /* Hover color for primary buttons and links */
+
+  --color-error: #EF4444;
+  /* Red – used for error messages or destructive actions */
+
+  --gradient-primary: linear-gradient(135deg, #3B82F6 0%, #6366F1 100%);
+  /* Primary gradient for banners, callouts, or elevated buttons */
+}
+
+/* === 🌞 LIGHT THEME (default appearance) === */
+:root.light {
+  --color-background: #fefefe;
+  /* Main application background in light mode */
+
+  --color-surface: #ffffff;
+  /* Surfaces such as cards, modals, or containers */
+
+  --color-border: #e0e0e0;
+  /* Borders for inputs, cards, or dividers */
+
+  --color-primary-dark: #1E40AF;
+  /* Darker shade of primary blue for hover states */
+
+  --color-secondary: #e8ecf1;
+  /* Light gray – used for secondary buttons or tabs */
+
+  --color-secondary-hover: #f3f4f6;
+  /* Lighter hover effect for secondary elements */
+
+  --color-secondary-text: #374151;
+  /* Text color on secondary or light elements */
+
+  --color-default: #f3f4f6;
+  /* Background for default buttons or neutral containers */
+
+  --color-default-hover: #e5e7eb;
+  /* Hover background for default buttons */
+
+  --color-accent: #A78BFA;
+  /* Soft purple used for tags, highlights or accents */
+
+  --color-accent-hover: #C084FC;
+  /* Hover color for accent elements */
+
+  --color-black-button: #000000;
+  /* Solid black background for strong CTA buttons */
+
+  --color-black-hover: #1a1a1a;
+  /* Darker black on hover */
+
+  --color-black-text: #ffffff;
+  /* White text on black buttons */
+
+  --color-success: #10B981;
+  /* Green – used for success states */
+
+  --color-warning: #FBBF24;
+  /* Yellow – used for warnings or alerts */
+
+  --color-info: #60A5FA;
+  /* Blue – used for informational banners or tooltips */
+
+  --text-high: #0F172A;
+  /* High-contrast text, used for titles and primary content */
+
+  --text-medium: #374151;
+  /* Standard body text */
+
+  --text-low: #6B7280;
+  /* Secondary text such as captions or meta info */
+
+  --text-placeholder: #9CA3AF;
+  /* Placeholder text inside inputs */
+
+  --color-disabled: #D1D5DB;
+  /* Used for disabled buttons, inputs or text */
+
+  --hover-ghost: rgba(0, 0, 0, 0.04);
+  /* Hover background for ghost buttons or icons */
+
+  --hover-input: #f3f4f6;
+  /* Light hover effect on input fields */
+}
+
+/* === 🌙 DARK THEME (enabled with .dark class on <html>) === */
+:root.dark {
+  --color-background: #0C0F17;
+  /* Main dark background for the application */
+
+  --color-surface: #161A23;
+  /* Elevated surfaces such as modals, cards, or panels */
+
+  --color-border: #2A2E3A;
+  /* Border color in dark mode – subtle but visible */
+
+  --color-primary-dark: #1E3A8A;
+  /* Darker blue for hover or active primary states */
+
+  --color-secondary: #1A1F2A;
+  /* Dark muted color for secondary buttons */
+
+  --color-secondary-hover: #2A2E3A;
+  /* Slightly lighter hover color for secondary buttons */
+
+  --color-secondary-text: #CBD5E1;
+  /* Text color for secondary elements in dark mode */
+
+  --color-default: #1A1F2A;
+  /* Background for neutral/default buttons or containers */
+
+  --color-default-hover: #2A2E3A;
+  /* Hover state for default buttons */
+
+  --color-accent: #C084FC;
+  /* Light purple for accent UI in dark mode */
+
+  --color-accent-hover: #D8B4FE;
+  /* Hover color for accent elements */
+
+  --color-black-button: #ffffff;
+  /* Inverted black button – white background in dark theme */
+
+  /* --color-black-hover: rgb(243, 243, 243); */
+  --color-black-hover: #e9e9e9;
+  /* Hover effect for white/black buttons in dark mode */
+
+  --color-black-text: #000000;
+  /* Black text on white buttons */
+
+  --color-success: #22C55E;
+  /* Bright green for success feedback */
+
+  --color-warning: #EAB308;
+  /* Gold for warning states */
+
+  --color-info: #60A5FA;
+  /* Lighter blue for info messages */
+
+  --text-high: #F1F5F9;
+  /* High contrast text for headers and primary info */
+
+  --text-medium: #CBD5E1;
+  /* Standard readable text */
+
+  --text-low: #94A3B8;
+  /* Low-contrast text for meta info */
+
+  --text-placeholder: #7C8495;
+  /* Placeholder color in dark inputs */
+
+  --color-disabled: #3A3F4A;
+  /* Disabled element background or text */
+
+  --hover-ghost: rgba(255, 255, 255, 0.03);
+  /* Soft hover effect for ghost elements */
+
+  --hover-input: #1A1F2A;
+  /* Input hover feedback in dark mode */
+}

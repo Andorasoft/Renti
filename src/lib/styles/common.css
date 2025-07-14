@@ -1,0 +1,132 @@
+/**
+ * ===============================
+ * GLOBAL BUTTON + INTERACTABLES
+ * ===============================
+ */
+
+/**
+ * Universal reset for mobile UX
+ *
+ * - Removes the blue tap highlight on mobile (`-webkit-tap-highlight-color`)
+ * - Disables outlines and borders by default
+ * - Prevents text selection for interactive elements
+ */
+* {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  border: none;
+  user-select: none;
+}
+
+input {
+  background-color: transparent;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: var(--color-primary);
+  transition: background-color 50000s ease-in-out 0s;
+  box-shadow: inset 0 0 20px 20px transparent;
+}
+
+/**
+ * Base link style
+ *
+ * - Uses accent color from CSS variable
+ * - Removes underline for a cleaner appearance
+ */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+/**
+ * Base button style
+ *
+ * - Default background and high-contrast text color
+ * - Rounded corners for a smooth, modern look
+ * - Large padding for better touch accessibility
+ * - Minimum height and width of 48px (recommended for touch targets)
+ * - Smooth transitions on hover
+ */
+button {
+  background-color: var(--color-default);
+  color: var(--text-high);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  min-height: 3rem;
+  min-width: 3rem;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+
+/**
+ * Button hover effect
+ *
+ * - Slight color change on hover for interactive feedback
+ */
+button:hover {
+  background-color: var(--color-default-hover);
+}
+
+/**
+ * Black button variant
+ *
+ * - Dark theme-friendly styling
+ */
+button.black {
+  background-color: var(--color-black-button);
+  color: var(--color-black-text);
+}
+
+button.black:hover {
+  background-color: var(--color-black-hover);
+}
+
+/**
+ * Primary button variant
+ *
+ * - Used for main actions across the app
+ */
+button.primary {
+  background-color: var(--color-primary);
+  color: var(--color-black-text);
+}
+
+button.primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/**
+ * Accent button variant
+ *
+ * - Used for secondary or highlighted actions
+ */
+button.accent {
+  background-color: var(--color-accent);
+  color: var(--color-black-text);
+}
+
+button.accent:hover {
+  background-color: var(--color-accent-hover);
+}
+
+/**
+ * Ghost button variant
+ *
+ * - Transparent background
+ * - No padding by default (used for icons or inline actions)
+ */
+button.ghost {
+  background-color: transparent;
+  padding: 0;
+}
+
+button.ghost:hover {
+  background-color: var(--hover-ghost);
+}
