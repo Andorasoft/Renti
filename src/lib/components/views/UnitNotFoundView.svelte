@@ -1,21 +1,15 @@
 <script lang="ts">
-	import { LottiePlayer } from '@lottiefiles/svelte-lottie-player';
 	import { browser } from '$app/environment';
 	import { Copy } from '@lucide/svelte';
 </script>
 
+<svelte:head>
+	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</svelte:head>
 <div class="view-container">
 	{#if browser}
-		<div></div>
-		<!-- <svelte:component
-			this={LottiePlayer}
-			src="/anims/Confetti.json"
-			width={175}
-			height={175}
-			autoplay
-			loop
-			background="transparent"
-		/> -->
+		<lottie-player src="/anims/Confetti.json" background="transparent" speed="1" autoplay loop
+		></lottie-player>
 	{/if}
 	<h2>¡Ups! <br /> No encontramos tu unidad</h2>
 	<p>Aún no formas parte de ninguna unidad habitacional.</p>
