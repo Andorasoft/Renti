@@ -1,14 +1,18 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { Copy } from '@lucide/svelte';
+
+	const width: number = 250;
 </script>
 
-<svelte:head>
-	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-</svelte:head>
 <div class="view-container">
 	{#if browser}
-		<lottie-player src="/anims/Confetti.json" background="transparent" speed="1" autoplay loop
+		<lottie-player
+			src="/anims/Error.json"
+			background="transparent"
+			style="width: 150px; height: 150px;"
+			autoplay
+			loop
 		></lottie-player>
 	{/if}
 	<h2>¡Ups! <br /> No encontramos tu unidad</h2>
@@ -25,8 +29,6 @@
 
 <style lang="scss">
 	div.view-container {
-		height: 100%;
-
 		display: flex;
 		flex-direction: column;
 		align-items: center;
