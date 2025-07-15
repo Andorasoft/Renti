@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {
 		Bell,
+		ChevronRight,
 		FileText,
 		FolderOpen,
 		Globe,
@@ -11,13 +12,19 @@
 		Moon
 	} from '@lucide/svelte';
 	import type { AppPageOptions } from '$lib';
-	import { AppPage } from '$lib';
+	import { AppPage, supabase } from '$lib';
 
 	const options: AppPageOptions = {
 		right: {
 			label: 'Cerrar sesión',
 			content: 'Cerrar sesión',
-			style: 'padding: 0.75rem;'
+			style: 'padding: 0.75rem;',
+			async onClick(event) {
+				if (event.button !== 0) return;
+
+				await supabase.auth.signOut();
+				await supabase.auth.refreshSession();
+			}
 		}
 	};
 </script>
@@ -35,25 +42,28 @@
 			<li>
 				<a href="?x=1">
 					<div class="icon-container">
-						<Home />
+						<Home size="20" />
 					</div>
-					Mis unidades
+					<p>Mis unidades</p>
+					<ChevronRight size="20" />
 				</a>
 			</li>
 			<li>
 				<a href="?x=1">
 					<div class="icon-container">
-						<FileText />
+						<FileText size="20" />
 					</div>
-					Mis solicitudes
+					<p>Mis solicitudes</p>
+					<ChevronRight size="20" />
 				</a>
 			</li>
 			<li>
 				<a href="?x=1">
 					<div class="icon-container">
-						<FolderOpen />
+						<FolderOpen size="20" />
 					</div>
-					Documentos
+					<p>Documentos</p>
+					<ChevronRight size="20" />
 				</a>
 			</li>
 		</ul>
@@ -63,25 +73,26 @@
 			<li>
 				<a href="?x=1">
 					<div class="icon-container">
-						<Globe />
+						<Globe size="20" />
 					</div>
-					Idioma
+					<p>Idioma</p>
+					<ChevronRight size="20" />
 				</a>
 			</li>
 			<li>
 				<a href="?x=1">
 					<div class="icon-container">
-						<Bell />
+						<Bell size="20" />
 					</div>
-					Notificaciones
+					<p>Notificaciones</p>
 				</a>
 			</li>
 			<li>
 				<a href="?x=1">
 					<div class="icon-container">
-						<Moon />
+						<Moon size="20" />
 					</div>
-					Modo oscuro
+					<p>Modo oscuro</p>
 				</a>
 			</li>
 		</ul>
@@ -91,9 +102,10 @@
 			<li>
 				<a href="?x=1">
 					<div class="icon-container">
-						<Lock />
+						<Lock size="20" />
 					</div>
-					Cambiar contraseña
+					<p>Cambiar contraseña</p>
+					<ChevronRight size="20" />
 				</a>
 			</li>
 		</ul>
@@ -103,23 +115,25 @@
 			<li>
 				<a href="?x=1">
 					<div class="icon-container">
-						<HelpCircle />
+						<HelpCircle size="20" />
 					</div>
-					Centro de ayuda
+					<p>Centro de ayuda</p>
+					<ChevronRight size="20" />
 				</a>
 			</li>
 			<li>
 				<a href="?x=1">
 					<div class="icon-container">
-						<MessageCircle />
+						<MessageCircle size="20" />
 					</div>
-					Contáctanos
+					<p>Contáctanos</p>
+					<ChevronRight size="20" />
 				</a>
 			</li>
 		</ul>
 
 		<p style="margin-top: 1.5rem;">
-			© 2025 Renti.
+			© 2025 Andorasoft S.A.
 			<br />
 			Todos los derechos reservados.
 		</p>
@@ -153,6 +167,8 @@
 		}
 
 		& p {
+			user-select: text;
+
 			margin-bottom: 1.5rem;
 			letter-spacing: 0.1rem;
 		}
@@ -162,15 +178,10 @@
 		background-color: var(--hover-input);
 		border-radius: 0.5rem;
 
-		padding: 0.35rem;
+		padding: 0.4rem;
 
 		display: grid;
 		place-items: center;
-
-		& :global(svg) {
-			width: 20px;
-			height: 20px;
-		}
 	}
 
 	span {
@@ -195,14 +206,24 @@
 
 	a {
 		border-radius: 0.5rem;
-		color: var(--text-high);
+		color: var(--text-low);
 
-		padding: 0.25rem 0;
+		padding: 0.2rem 0;
 
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		gap: 0.5rem;
+
+		transition: background-color 0.2s ease-in;
+
+		& :nth-child(2) {
+			flex: 1;
+
+			text-align: start;
+
+			color: var(--text-high);
+		}
 
 		&:hover {
 			background-color: var(--hover-input);

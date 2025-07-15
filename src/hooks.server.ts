@@ -4,6 +4,7 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { type Handle, redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { dev } from '$app/environment';
+import { User } from '$lib';
 
 
 /**
@@ -45,13 +46,17 @@ const supabase: Handle = async ({ event, resolve }) => {
 
     if (!authUser) return { authUser: null, appUser: null };
 
-    const appUser = await locals.supabase
+    const { data } = await locals.supabase
       .from("user")
       .select("*")
       .eq("email", authUser.email)
       .maybeSingle();
 
-    return { authUser: authUser, appUser };
+    if (!data) return { authUser, appUser: null };
+
+    const appUser = User.fromJSON(data);
+
+    return { authUser, appUser };
   }
 
   return resolve(event, {

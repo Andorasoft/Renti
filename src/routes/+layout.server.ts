@@ -1,19 +1,4 @@
 import type { LayoutServerLoad, LayoutServerLoadEvent } from './$types';
-import type { BarItem } from '$lib/types/BarItem';
-
-const OWNER_ITEMS: BarItem[] = [
-  { label: 'Inicio', icon: 'home', path: '/' },
-  { label: 'Unidades', icon: 'domain', path: '/units' },
-  { label: 'Mantenimiento', icon: 'home_repair_service', path: '/requests' },
-  { label: 'Mi cuenta', icon: 'account_circle', path: '/account' }
-];
-
-const TENANT_ITEMS: BarItem[] = [
-  { label: 'Inicio', icon: 'home', path: '/' },
-  { label: 'Unidad', icon: 'villa', path: '/unit' },
-  { label: 'Solicitudes', icon: 'sell', path: '/requests' },
-  { label: 'Cuenta', icon: 'account_circle', path: '/account' }
-];
 
 /**
  * Loads server-side layout data.
@@ -25,17 +10,9 @@ const TENANT_ITEMS: BarItem[] = [
 export const load: LayoutServerLoad = async (
   { locals }: LayoutServerLoadEvent
 ): Promise<any> => {
-  const name = 'Ricardo';
-  let role = 'tenant';
+  const config = locals.config;
 
   return {
-    config: locals.config,
-    user: {
-      name,
-      role
-    },
-    items: role === 'owner'
-      ? OWNER_ITEMS
-      : TENANT_ITEMS
+    config
   };
-};
+}

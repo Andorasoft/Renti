@@ -1,22 +1,17 @@
 <script lang="ts">
 	import { Bell } from '@lucide/svelte';
-	import { AppPage, SearchBox, supabase } from '$lib';
+	import { AppPage, SearchBox } from '$lib';
 
 	export let data: { user: any };
 
-	async function handleClickSignOut(event: MouseEvent) {
-		if (event.button !== 0) return;
-
-		await supabase.auth.signOut();
-		await supabase.auth.refreshSession();
-	}
+	$: console.log(data);
 </script>
 
 <AppPage>
 	<section>
 		<div class="top-bar">
 			<div class="greeting">
-				<h2>Hola, {data.user.name} 👋🏻</h2>
+				<h2>Hola, {data.user?.first_name} 👋🏻</h2>
 				<span>Nos alegra tenerte aquí</span>
 			</div>
 			<button class="ghost" aria-label="Buscar">
@@ -34,7 +29,6 @@
 			<div style="opacity: 0.25; min-height: 500px; background-color: pink;"></div>
 			<div style="opacity: 0.25; min-height: 500px; background-color: cyan;"></div>
 			<div style="opacity: 0.25; min-height: 500px; background-color: green;"></div>
-			<button class="accent" on:click={handleClickSignOut}>Cerrar sesión</button>
 		</div>
 	</section>
 </AppPage>

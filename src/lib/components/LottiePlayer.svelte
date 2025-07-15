@@ -45,7 +45,4 @@
 	export let style: string = 'width: 150px; height: 150px;';
 </script>
 
-<svelte:head>
-	<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-</svelte:head>
 <lottie-player {src} {autoplay} {loop} {background} {speed} {style}></lottie-player>

@@ -1,5 +1,5 @@
-import type { AuthUser, Session, SupabaseClient, User } from '@supabase/supabase-js';
-import type { AppConfig } from '$lib';
+import type { AuthUser, Session, SupabaseClient } from '@supabase/supabase-js';
+import type { AppConfig, User } from '$lib';
 
 declare global {
 	namespace App {
@@ -11,7 +11,7 @@ declare global {
 			config: AppConfig
 			supabase: SupabaseClient,
 			getSession(): Promise<{ session: Session | null }>,
-			getUsers(): Promise<{ authUser: AuthUser | null, appUser: any | null }>
+			getUsers(): Promise<{ authUser: AuthUser | null, appUser: User | null }>
 		}
 	}
 }
