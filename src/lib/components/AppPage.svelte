@@ -21,31 +21,41 @@
 	/**
 	 * Configuration object for left and right top bar actions.
 	 */
-	export let options: AppPageOptions = {};
+	export let options: AppPageOptions | null = null;
 </script>
 
 <section {style} class={`app-page ${className}`}>
-	{#if !options || !!title}
+	{#if options !== null || title !== ''}
 		<div class="top-bar">
-			{#if options.left?.visible !== false}
+			{#if options?.left?.visible !== false}
 				<button
-					aria-label={options.left?.label}
+					style={options?.left?.style}
+					aria-label={options?.left?.label}
 					class="ghost bar-option-left"
-					on:click={options.left?.onClick}
+					on:click={options?.left?.onClick}
 				>
-					<svelte:component this={options.left?.content} />
+					{#if typeof options?.left?.content === 'string'}
+						{options.left.content}
+					{:else}
+						<svelte:component this={options?.left?.content} />
+					{/if}
 				</button>
 			{/if}
 
 			<h2 class="bar-title">{title}</h2>
 
-			{#if options.right?.visible !== false}
+			{#if options?.right?.visible !== false}
 				<button
-					aria-label={options.right?.label}
+					style={options?.right?.style}
+					aria-label={options?.right?.label}
 					class="ghost bar-option-right"
-					on:click={options.right?.onClick}
+					on:click={options?.right?.onClick}
 				>
-					<svelte:component this={options.right?.content} />
+					{#if typeof options?.right?.content === 'string'}
+						{options?.right?.content}
+					{:else}
+						<svelte:component this={options?.right?.content} />
+					{/if}
 				</button>
 			{/if}
 		</div>

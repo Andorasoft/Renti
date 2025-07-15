@@ -31,6 +31,8 @@ interface AppPageOptionItem {
    */
   visible?: boolean;
 
+  style?: string;
+
   /**
    * Optional click handler for the button.
    * Accepts a function with or without a MouseEvent parameter.
