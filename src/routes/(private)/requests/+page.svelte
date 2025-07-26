@@ -33,7 +33,7 @@
 	};
 </script>
 
-<AppPage title="Solicitudes" {options}>
+<AppPage {options} title="Solicitudes">
 	<div class="content">
 		<span>Aún no has creado ninguna solicitud.</span>
 	</div>

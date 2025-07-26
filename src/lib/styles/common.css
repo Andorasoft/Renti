@@ -18,8 +18,9 @@
   user-select: none;
 }
 
-/* Normalize appearance for all inputs */
-input {
+/* Normalize appearance for all inputs and select */
+input,
+select {
   background-color: transparent;
   appearance: none;
   -moz-appearance: none;

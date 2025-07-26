@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { Bell } from '@lucide/svelte';
-	import { AppPage, SearchBox } from '$lib';
+	import { AppPage, SearchBox, User } from '$lib';
 
-	export let data: { user: any };
-
-	$: console.log(data);
+	export let data: { appUser: User };
 </script>
 
 <AppPage>
 	<section>
 		<div class="top-bar">
 			<div class="greeting">
-				<h2>Hola, {data.user?.first_name} 👋🏻</h2>
+				<h2>Hola, {data.appUser?.first_name} 👋🏻</h2>
 				<span>Nos alegra tenerte aquí</span>
 			</div>
 			<button class="ghost" aria-label="Buscar">

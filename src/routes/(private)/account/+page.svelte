@@ -11,14 +11,16 @@
 		MessageCircle,
 		Moon
 	} from '@lucide/svelte';
-	import type { AppPageOptions } from '$lib';
+	import type { AppPageOptions, User } from '$lib';
 	import { AppPage, supabase } from '$lib';
+
+	export let data: { appUser: User };
 
 	const options: AppPageOptions = {
 		right: {
-			label: 'Cerrar sesión',
+			label: '',
 			content: 'Cerrar sesión',
-			style: 'padding: 0.75rem;',
+			style: 'padding: 0 0.75rem;',
 			async onClick(event) {
 				if (event.button !== 0) return;
 
@@ -29,12 +31,12 @@
 	};
 </script>
 
-<AppPage title="" {options}>
+<AppPage {options}>
 	<div class="content">
 		<div class="card-user">
-			<img src="/images/R+E.png" alt="Imagen de perfil" />
-			<h2>Ricardo Carrión</h2>
-			<p>#{'7fa9-c2bd'.toUpperCase()}</p>
+			<img src={data.appUser?.picture_url} alt="Imagen de perfil" />
+			<h2>{data.appUser?.first_name} {data.appUser?.last_name}</h2>
+			<p>#{data.appUser?.invite_code?.toUpperCase()}</p>
 		</div>
 
 		<span>Mi actividad</span>

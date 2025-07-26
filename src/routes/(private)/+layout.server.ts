@@ -41,7 +41,7 @@ export const load: LayoutServerLoad = async (
   }
 
   return {
-    user: appUser?.toJSON(),
+    appUser: appUser?.toJSON(),
     items: appUser?.account_type === 'Propietario'
       ? OWNER_ITEMS
       : TENANT_ITEMS

@@ -34,7 +34,7 @@
 	};
 </script>
 
-<AppPage title="Unidad" {options}>
+<AppPage {options} title="Unidad">
 	<div class="content">
 		{#if !unit}
 			<UnitNotFoundView />

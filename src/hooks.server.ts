@@ -85,7 +85,6 @@ const authGuard: Handle = async ({ event, resolve }) => {
 
   // ✅ Allow POST to public pages like /auth/password even if user is logged in
   if (session && isPublic && method !== 'POST' && typeParam !== 'recovery') {
-    console.log(method);
     throw redirect(303, '/');
   }
 

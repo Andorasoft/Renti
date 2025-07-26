@@ -244,7 +244,7 @@
 
 		&.readonly {
 			& > input {
-				color: var(--color-placeholder);
+				color: var(--text-placeholder);
 			}
 
 			&:hover {

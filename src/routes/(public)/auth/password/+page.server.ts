@@ -71,8 +71,6 @@ export const actions: Actions = {
     const { error } = await locals.supabase.auth.updateUser({ password });
 
     if (error) {
-      console.log(`✳️[Recovery] Cambio de contraseña ${error}`);
-
       return fail(400, {
         message:
           error.message === 'New password should be different from the old password'
